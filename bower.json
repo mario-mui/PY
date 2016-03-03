@@ -1,0 +1,26 @@
+{
+  "name": "pinyou",
+  "description": "pinyou website",
+  "main": "app.js",
+  "authors": [
+    "mario"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "pinyou"
+  ],
+  "homepage": "https://github.com/mario56/pinyou",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.0",
+    "angular-bootstrap": "^1.2.1",
+    "bootstrap": "^3.3.6"
+  }
+}
