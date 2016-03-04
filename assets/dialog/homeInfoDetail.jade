@@ -1,9 +1,26 @@
 .modal-header
   button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
-  h4.modal-title Modal title
+  h4.modal-title 阿迪拼邮
 .modal-body
-  | Modal body content
-.modal-footer
-  | Modal Footer Content
-  button.btn.btn-default(type='button', data-dismiss='modal') Close
-  button.btn.btn-primary(type='button') Save changes
+  .row
+    .col-md-8
+      .form-horizontal
+        .form-group
+          .col-sm-3.control-label.text-left
+            | 价格 :
+          .col-sm-6
+            .form-control-static
+              | 500
+        .form-group
+          .col-sm-3.control-label.text-left
+            | 商品链接 :
+          .col-sm-6
+            .form-control-static
+              a(href='http://www.baidu.com') meiguo
+        .form-group(ng-repeat="(k,v) in goodsAttr")
+          info-attr(value='v',check-value='v.checkValue')
+        .form-group
+          .col-sm-3.control-label.text-left
+            | 数量 :
+          .col-sm-6
+            input(type='number')

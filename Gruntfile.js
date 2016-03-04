@@ -19,12 +19,16 @@ module.exports = function(grunt) {
     },
     watch: {
       coffee:{
-        files: ['assets/coffee'],
+        files: ['assets/coffee/**'],
         tasks: ['coffee:dev']
       },
       jade:{
-        files: ['assets/dialogJade'],
+        files: ['assets/dialog/**'],
         tasks: ['jade:dev']
+      },
+      css:{
+        files: ['assets/styles/**'],
+        tasks: ['copy:dev']
       }
     },
     jade:{
@@ -59,6 +63,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-copy');
 
-  grunt.registerTask('default', ['clean:dev','coffee:dev','jade:dev','copy:dev','watch:coffee','watch:jade']);
+  grunt.registerTask('default', ['clean:dev','coffee:dev','jade:dev','copy:dev','watch']);
 
 };

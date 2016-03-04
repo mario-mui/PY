@@ -69,6 +69,18 @@ PYApp.controller 'homeCtl',['$scope','homeService','$uibModal',($scope,homeServi
 
 PYApp.controller 'homeDetailCtl',['$scope','info',($scope,info)->
 
-
+  $scope.goodsAttr =
+    {
+      color:{
+        attrName:'颜色'
+        values:['黑色','红色','蓝色']
+        checkValue:''
+      }
+      size:{
+        attrName:'尺寸'
+        values:['32','33','34','35']
+        checkValue:''
+      }
+    }
 ]
 
