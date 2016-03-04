@@ -24,3 +24,71 @@
             | 数量 :
           .col-sm-6
             input(type='number')
+        .form-group
+          .col-sm-6.col-sm-offset-3
+            button.btn.btn-primary(ng-click="apply()") 申请拼邮
+
+    .col-md-4
+      .posterInfo
+        .form-horizontal
+          .form-group
+            .col-sm-4.control-label.text-left
+              | 发布人 :
+            .col-sm-6
+              .form-control-static
+                a(href='') mario
+          .form-group
+            .col-sm-4.control-label.text-left
+              | 信誉度 :
+            .col-sm-6
+              .form-control-static
+                a(href='') mario
+          .form-group
+            .col-sm-4.control-label.text-left
+              | 联系方式 :
+            .col-sm-6
+              .form-control-static
+                | 165XXXXXXX
+
+.modal-foot
+  uib-tabset
+    uib-tab(index='0', heading='商品详情')
+      .row
+    uib-tab(index='1', heading='评论')
+      .comment-area
+        ol.comment-list.clearfix
+          li
+            .comment-body
+              .col-sm-1
+                img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
+              .col-sm-10
+                .comment-content
+                  p
+                    | That support is great, but I ran into trouble wanting to alter/change the default order. Is it possible to put the textarea first. Been searching around and didn’t find any answers. Thanks
+                .comment-footer.row
+                  .rate.col-sm-6
+                    uib-rating(ng-model='rate' read-only='true')
+                  .date.col-sm-6
+                    | 2016-03-10
+          li
+            .comment-body
+              .col-sm-1
+                img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
+              .col-sm-10
+                .comment-content
+                  p
+                    | This is the code I was looking all day. You save me. The new wordpress theme i’m doing with bootstrap 3 needs this code to make comments part compatible with bootstrap
+                .comment-footer.row
+                  .rate.col-sm-6
+                    uib-rating(ng-model='rate' read-only='true')
+                  .date.col-sm-6
+                    | 2016-03-10
+        .comment-respond
+          h3 评论一下
+          form.comment-form(name="commentForm")
+            .form-group
+              uib-rating(name='commentRate' ng-model='rate', on-hover='commentRateHover(value);overStar = true', on-leave="overStar = null")
+              span.label.label-success(ng-show='overStar' ng-bind="rateInfo")
+              p
+              textarea.form-control(name='commentText', ng-model='comment.commentText' cols='45', rows='8', required)
+            button.btn.btn-primary(type='submit',ng-disabled="!(rate && commentForm.$valid)") 发布评论

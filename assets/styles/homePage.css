@@ -95,6 +95,15 @@
 
 }
 
+.homeInfoDetail .modal-foot {
+  padding: 15px;
+  border-top: 1px solid #e5e5e5;
+}
+
+.ng-goods-param {
+  padding-left: 0px !important;
+}
+
 .goods-param-li {
   list-style: none;
   float: left;
@@ -106,4 +115,43 @@
   border: 1px solid #ddd;
   color: #337ab7;
   padding: 6px 12px;
+}
+
+.posterInfo {
+  padding: 10px;
+  /*border: 1px solid #e5e5e5;*/
+}
+
+/*
+  comment
+*/
+.comment-area {
+  padding-top: 30px;
+}
+.comment-body {
+  display: inline-block;
+}
+.comment-footer {
+  margin-top: 20px;
+}
+.comment-footer > .rate{
+  text-align: left;
+  width: 50%;
+}
+.comment-footer > .date{
+  text-align: right;
+  width: 50%;
+}
+ol.comment-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 0;
+}
+
+ol.comment-list li {
+  padding-bottom: 30px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #ddd;
+  position: relative;
+  padding-left: 90px;
 }

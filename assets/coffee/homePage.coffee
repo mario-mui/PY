@@ -68,7 +68,7 @@ PYApp.controller 'homeCtl',['$scope','homeService','$uibModal',($scope,homeServi
 
 
 PYApp.controller 'homeDetailCtl',['$scope','info',($scope,info)->
-
+  $scope.rate = 0
   $scope.goodsAttr =
     {
       color:{
@@ -82,5 +82,9 @@ PYApp.controller 'homeDetailCtl',['$scope','info',($scope,info)->
         checkValue:''
       }
     }
+
+  $scope.commentRateHover = (_value)->
+    $scope.overStar = _value
+    $scope.rateInfo = rateMap[_value]
 ]
 
