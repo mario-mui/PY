@@ -13,6 +13,12 @@
               | 500
         .form-group
           .col-sm-3.control-label.text-left
+            | 大约到达时间 :
+          .col-sm-6
+            .form-control-static
+              | 30天
+        .form-group
+          .col-sm-3.control-label.text-left
             | 商品链接 :
           .col-sm-6
             .form-control-static
@@ -53,15 +59,31 @@
 .modal-foot
   uib-tabset
     uib-tab(index='0', heading='商品详情')
-      .row
+      .detail-area
+        .detail-area-title
+          .row
+            .col-sm-6
+              span 商品品牌: 阿迪
+            .col-sm-6
+              span 商品来源: 美国
+        .detail-area-desc
+          P
+            | That support is great, but I ran into trouble wanting to a
+
+        .detail-area-img
+          img(ng-src='/userImg/detail1.jpg')
+          img(ng-src='/userImg/detail2.jpg')
+          img(ng-src='/userImg/detail3.jpg')
+          img(ng-src='/userImg/detail4.jpg')
+
     uib-tab(index='1', heading='评论')
       .comment-area
         ol.comment-list.clearfix
           li
-            .comment-body
-              .col-sm-1
+            .media
+              .media-left
                 img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
-              .col-sm-10
+              .media-body
                 .comment-content
                   p
                     | That support is great, but I ran into trouble wanting to alter/change the default order. Is it possible to put the textarea first. Been searching around and didn’t find any answers. Thanks
@@ -71,10 +93,10 @@
                   .date.col-sm-6
                     | 2016-03-10
           li
-            .comment-body
-              .col-sm-1
+            .media
+              .media-left
                 img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
-              .col-sm-10
+              .media-body
                 .comment-content
                   p
                     | This is the code I was looking all day. You save me. The new wordpress theme i’m doing with bootstrap 3 needs this code to make comments part compatible with bootstrap

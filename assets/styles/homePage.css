@@ -128,9 +128,6 @@
 .comment-area {
   padding-top: 30px;
 }
-.comment-body {
-  display: inline-block;
-}
 .comment-footer {
   margin-top: 20px;
 }
@@ -154,4 +151,21 @@ ol.comment-list li {
   border-bottom: 1px solid #ddd;
   position: relative;
   padding-left: 90px;
+}
+
+/*
+detail area
+*/
+
+.detail-area {
+  margin-top: 20px;
+  /*padding-bottom: 40px;*/
+}
+
+.detail-area-desc {
+  padding-top: 20px;
+}
+
+.detail-area-img {
+  text-align: center;
 }
