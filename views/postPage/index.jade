@@ -3,7 +3,9 @@ block styles
   link(href='/styles/postPY.css', rel='stylesheet')
 block body
   .container.main-container
-    | postPage
+    .row()
+      .col-md-8.col-md-offset-2
+
 block js
   script(src="/angular-bootstrap/ui-bootstrap.min.js")
   script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
