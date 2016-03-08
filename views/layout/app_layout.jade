@@ -6,10 +6,13 @@ html
     // Viewport mobile tag for sensible mobile support
     meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
     link(href='/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/angular-material/angular-material.css' ,rel='stylesheet')
+    link(href='/alertify.js/dist/css/alertify.css',rel='stylesheet')
+    link(href='/alertify.js/dist/css/alertify.css', rel='stylesheet')
     link(href='/styles/PYApp.css', rel='stylesheet')
     block styles
 
-  body.PYBG(ng-app='PYApp')
+  body(ng-app='PYApp')
     nav.navbar.navbar-default.navbar-fixed-top(ng-controller='navCtl')
       .container
         .navbar-header
@@ -51,6 +54,12 @@ html
 
     script(src="/angular/angular.min.js")
     script(src="/jquery/dist/jquery.min.js")
+    script(src="/underscore/underscore-min.js")
     script(src="/bootstrap/dist/js/bootstrap.min.js")
+    script(src="/angular-aria/angular-aria.js")
+    script(src="/angular-animate/angular-animate.js")
+    script(src="/angular-material/angular-material.js")
+    script(src='/alertify.js/dist/js/ngAlertify.js')
+    script(src="/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.js")
     script(src="/js/app.js")
     block js
