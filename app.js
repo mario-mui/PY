@@ -25,4 +25,5 @@ app.use(staic(__dirname + '/public'));
 app.use(staic(__dirname + '/bower_components'));
 app.use(staic(__dirname + '/user'));
 
-app.listen(3000);
+
+app.listen(3001);

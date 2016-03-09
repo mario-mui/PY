@@ -17,6 +17,16 @@ PYApp.controller 'navCtl',['$scope',($scope)->
     $scope.isOpen = !$scope.isOpen
   $scope.closeSearch = ()->
     $scope.isOpen = false
+
+  $scope.getActiveMenu = (_path)->
+
+    path = window.location.pathname
+    if (path.length is 1) and (_path.length is 1)
+      'active'
+    else if (path.substr(0, _path.length) is _path) and (_path.length >1)
+      'active'
+    else
+      ''
 ]
 
 PYApp.directive 'infoAttr', ->

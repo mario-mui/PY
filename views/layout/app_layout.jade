@@ -24,13 +24,13 @@ html
           a.navbar-brand(href='/') 拼邮
         #navbar.navbar-collapse.collapse
           ul.nav.navbar-nav.navbar-right
-            li.active
+            li(ng-class="getActiveMenu('/')")
               a(href='/') 首页
-            li
-              a(href='#about') 宝宝中心
-            li
-              a(href='#contact') 退出
-            li
+            li(ng-class="getActiveMenu('/user/center')")
+              a(href='/user/center') 宝宝中心
+            li(ng-class="getActiveMenu('/user/logout')")
+              a(href='/user/logout') 退出
+            li(ng-class="getActiveMenu('/post')")
               a(href='/post')
                 span.glyphicon.glyphicon-edit
             li
