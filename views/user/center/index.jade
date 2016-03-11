@@ -1,13 +1,22 @@
 extends ../../layout/app_layout
 block styles
-  link(href='/styles/postPY.css', rel='stylesheet')
+  link(href='/styles/user.css', rel='stylesheet')
 block body
-  .container.main-container(ng-controller='postCtl')
+  .container.main-container(ng-controller='userCenterCtl' ng-cloak)
     .row
       .col-md-8.col-md-offset-2.postTitle
-        h2 宝宝中心
+        md-content
+          md-tabs(md-dynamic-height='', md-border-bottom='')
+            md-tab(label='宝宝信息')
+              md-content.md-padding
+                include info
+            md-tab(label='发布的拼邮')
+              md-content.md-padding
+            md-tab(label='申请的拼邮')
+              md-content.md-padding
+
 
 block js
   script(src="/angular-bootstrap/ui-bootstrap.min.js")
   script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
-  script(src="/js/postPY.js")
+  script(src="/js/userCenter.js")

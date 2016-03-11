@@ -12,10 +12,14 @@
   "author": "mario",
   "license": "ISC",
   "dependencies": {
+    "co-busboy": "^1.3.1",
+    "fs": "0.0.2",
     "koa": "^1.1.2",
     "koa-jade": "^2.1.0",
     "koa-router": "^5.4.0",
-    "koa-static": "^2.0.0"
+    "koa-static": "^2.0.0",
+    "path": "^0.12.7",
+    "shortid": "^2.2.4"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
