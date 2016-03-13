@@ -17,6 +17,37 @@ input[type='file'] {
   height: 100%;
 }
 
+.myPostList {
+  background: rgb(245,245,245);
+  margin-bottom: 20px;
+}
+
+.myPostTitle {
+  padding: 16px;
+  font-size: 14px;
+}
+
+.attr {
+  border-bottom: 1px dotted #ccc;
+  padding: 0px 3px;
+}
+
+.applyPeople {
+  width: 30%;
+}
+
+.applyPeople.done {
+  background: #DFF2BF;
+}
+.post-list {
+  overflow-y: scroll;
+}
+.myPost-fab-action{
+  margin-top: 25px;
+}
+.post-card-content{
+  min-width: 180px;
+}
 /*
 ** login page
 

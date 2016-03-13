@@ -1,0 +1,37 @@
+md-list
+  .myPostList(layout='row' ng-repeat="post in postList")
+    .myPostContent(flex='90')
+      .myPostTitle
+        a(ng-href='http://{{post.link}}' ng-bind="post.title")
+      md-list-item.post-list
+        md-card.applyPeople(ng-repeat="person in post.applyPeople" ng-class="{'done':person.status=='ok'}")
+          md-card-content.post-card-content(layout="column")
+            .attr(layout='row')
+              label(flex='30') 申请人
+              span(flex='10') :
+              span  {{person.username}}
+            .attr(layout='row' ng-repeat="attr in person.attr")
+              label(flex='30') {{attr.key}}
+              span(flex='10') :
+              span  {{attr.value}}
+
+          md-card-actions(layout='row', layout-align='end center' ng-hide="person.status=='ok'")
+            md-button.md-fab.md-mini.md-primary
+              md-icon(md-svg-icon='/imgs/icons/ic_y.svg')
+            md-button.md-fab.md-mini.md-warn.md-hue-2
+              md-icon(md-svg-icon='/imgs/icons/ic_n.svg')
+
+    .myPostAction(flex='10' layout='column')
+      md-fab-speed-dial.md-scale(md-direction='up')
+        md-fab-trigger
+          md-button.md-fab.md-mini.md-warn
+            md-icon(md-svg-icon='/imgs/icons/ic_menu.svg')
+        md-fab-actions.myPost-fab-action
+          md-button.md-fab.md-mini.md-default
+            md-icon(md-svg-icon='/imgs/icons/ic_edit.svg')
+          md-button.md-fab.md-mini.md-warn.md-hue-2
+            md-icon(md-svg-icon='/imgs/icons/ic_delete.svg')
+          md-button.md-fab.md-mini.md-primary
+            md-icon(md-svg-icon='/imgs/icons/ic_y.svg')
+
+  uib-pager(total-items="totalList" ng-model="currentPage" items-per-page='5' next-text='下一页' previous-text='上一页')

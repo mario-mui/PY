@@ -1,4 +1,4 @@
-PYApp = angular.module('PYApp',['ui.bootstrap','ngMaterial','ngAlertify','lfNgMdFileInput'])
+PYApp = angular.module('PYApp',['ui.bootstrap','ngMaterial','lfNgMdFileInput'])
 
 ##评论等级对应表
 rateMap =

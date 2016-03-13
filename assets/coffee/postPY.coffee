@@ -1,4 +1,4 @@
-PYApp.controller 'postCtl', ['$scope','alertify',($scope,alertify) ->
+PYApp.controller 'postCtl', ['$scope','$mdToast',($scope,$mdToast) ->
   $scope.showHints = true;
   $scope.attrs = {
     color : '颜色'
@@ -21,10 +21,20 @@ PYApp.controller 'postCtl', ['$scope','alertify',($scope,alertify) ->
     newAttr[$scope.addAttr] = $scope.attrValue
 
     if ($scope.addAttr is '') or ($scope.attrValue is [])
-      alertify.error("商品属性或值不能为空")
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent('商品属性或值不能为空')
+        .position('bottom left' )
+        .hideDelay(3000)
+      )
 
     else if _.has($scope.postPY.attr,$scope.addAttr)
-      alertify.error("已经存在该商品属性")
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent('已经存在该商品属性')
+        .position('bottom left' )
+        .hideDelay(3000)
+      )
     else
       $scope.postPY.attr = _.extend $scope.postPY.attr,newAttr
       initNewAttr()
