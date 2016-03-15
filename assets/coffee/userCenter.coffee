@@ -324,7 +324,14 @@ PYApp.controller 'userCenterCtl', ['$scope','$http',($scope,$http) ->
       ]
     }
   ]
-
+  $scope.applyList = [
+    {
+      postId:'11'
+      title:'apply1'
+      owner:'mario'
+      status:'pass' #pass,applying,reject
+    }
+  ]
 
 
   ## my apply list

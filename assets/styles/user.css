@@ -48,6 +48,10 @@ input[type='file'] {
 .post-card-content{
   min-width: 180px;
 }
+.attrSplit {
+  margin: 0px 10px;
+}
+
 /*
 ** login page
 

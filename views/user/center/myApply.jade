@@ -1,0 +1,22 @@
+md-list
+  .myPostList(layout='row' ng-repeat="apply in applyList")
+    .myPostContent(flex='90')
+      .myPostTitle
+        a(ng-href='http://{{apply.postId}}' ng-bind="apply.title")
+
+      md-list-item.post-list(layout='row')
+        .attr(flex='50' layout='row')
+          label 发起人
+          span.attrSplit :
+          span  {{apply.owner}}
+
+        .attr(flex='50' layout='row')
+          label 申请状态
+          span.attrSplit :
+          span  {{apply.status}}
+    .myPostAction(flex='10' layout='column')
+      md-button.md-fab.md-mini.md-warn.md-hue-2
+        md-icon(md-svg-icon='/imgs/icons/ic_delete.svg')
+
+
+  uib-pager(total-items="totalList" ng-model="currentPage" items-per-page='5' next-text='下一页' previous-text='上一页')

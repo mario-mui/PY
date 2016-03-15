@@ -31,6 +31,12 @@
           .col-sm-6
             input(type='number')
         .form-group
+          .col-sm-3.control-label.text-left
+            | 状态 :
+          .col-sm-6
+            .form-control-static
+              span() 3 / 10
+        .form-group
           .col-sm-6.col-sm-offset-3
             button.btn.btn-primary(ng-click="apply()") 申请拼邮
 
