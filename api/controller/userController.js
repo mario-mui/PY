@@ -21,9 +21,19 @@ const _uploadAvatar = function *(){
       "filename" : avatarName
     }
   }
-}
+};
+
+const _renderLoginPage = function * (){
+  this.render('user/login/index')
+};
+
+const _renderRegisterPage = function * (){
+  this.render('user/register/index')
+};
 
 module.exports = {
-  renderUserCenterPage:_renderUserCenterPage,
-  uploadAvatar:_uploadAvatar
+  renderUserCenterPage  :  _renderUserCenterPage,
+  uploadAvatar          :  _uploadAvatar,
+  renderLoginPage       :  _renderLoginPage,
+  renderRegisterPage    :  _renderRegisterPage
 }

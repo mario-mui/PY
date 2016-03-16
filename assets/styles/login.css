@@ -1,0 +1,33 @@
+.footer-main{
+  text-align: center;
+}
+
+.logo img {
+  min-width: 120px;
+  min-height: 120px;
+}
+
+.loginBody {
+  height: 80%;
+  width: 100%;
+}
+
+.loginForm {
+  min-width: 400px;
+}
+
+.login-content {
+  width: 100%;
+}
+
+.more {
+  text-align: center;
+}
+
+.login-input-row {
+  margin: 20px 0px;
+}
+
+body {
+  background: #f2f2f2;
+}

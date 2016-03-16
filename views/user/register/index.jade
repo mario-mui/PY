@@ -1,0 +1,27 @@
+extends ../../layout/X_layout
+block styles
+  link(href='/styles/login.css', rel='stylesheet')
+block body
+  .loginBody(ng-app='XApp' ng-controller='loginCtl' ng-cloak layout="column" layout-align="center center")
+    .logo(layout="row" layout-align="center center")
+      img(src="/imgs/py.svg")
+    form.loginForm(name='loginForm' layout="row")
+      .login-content(layout="column")
+        md-input-container.md-block
+          label 用户名:
+          input(ng-model='user.username', required='')
+        md-input-container.md-block
+          label 邮箱:
+          input(ng-model='user.password', type='email', required='')
+        md-input-container.md-block
+          label 密码:
+          input(ng-model='user.password', type='password', required='')
+        md-input-container.md-block
+          label 确认密码:
+          input(ng-model='user.password', type='password', required='')
+
+        md-button.md-raised.md-primary 立即注册
+
+
+block js
+  script(src="/js/login.js")
