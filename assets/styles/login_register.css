@@ -31,3 +31,11 @@
 body {
   background: #f2f2f2;
 }
+
+.hint {
+  font-size: 12px;
+  margin-top: 5px;
+}
+.error {
+  color:red;
+}
