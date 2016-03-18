@@ -3,15 +3,11 @@ module.exports = {
   mappings:{
     user:{
       properties:{
-        user_id:{
+        username:{
           type: 'string',
           index: 'not_analyzed'
         },
-        user_name:{
-          type: 'string',
-          index: 'not_analyzed'
-        },
-        user_email:{
+        email:{
           type: 'string',
           index: 'not_analyzed'
         },

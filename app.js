@@ -1,9 +1,10 @@
 const staic = require('koa-static');
 const koa = require('koa');
 const app = koa();
-const Jade = require('koa-jade')
+const Jade = require('koa-jade');
+var bodyParser = require('koa-bodyparser');
 
-
+app.use(bodyParser());
 const jade = new Jade({
   viewPath: './views',
   debug: false,
@@ -11,10 +12,10 @@ const jade = new Jade({
   compileDebug: false,
   locals: 'pinyou',
   app: app
-})
+});
 
 /* add app route*/
-require('./config/route')(app)
+require('./config/route')(app);
 
 
 console.log('pinyou server is started');

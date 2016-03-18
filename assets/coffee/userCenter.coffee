@@ -18,7 +18,7 @@ PYApp.controller 'userCenterCtl', ['$scope','$http',($scope,$http) ->
     fd.append("file",files[0])
 
 
-    $http.post('/user/upload/avatar.json',fd,{
+    $http.post('/user/upload/avatar',fd,{
       withCredentials: true,
       headers: {'Content-Type': undefined },
       transformRequest: angular.identity}
