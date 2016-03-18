@@ -45,10 +45,22 @@ const _register = function* (){
   }
 };
 
+const _login = function* (){
+  const loginData = this.request.body.loginData;
+  esUser.login = Promise.promisify(esUser.login);
+  try {
+    var res = yield esUser.login(loginData);
+    this.response.body = res;
+  }catch (err){
+    this.response.status = 500;
+  }
+};
+
 module.exports = {
   renderUserCenterPage  :  _renderUserCenterPage,
   uploadAvatar          :  _uploadAvatar,
   renderLoginPage       :  _renderLoginPage,
   renderRegisterPage    :  _renderRegisterPage,
-  register              :  _register
+  register              :  _register,
+  login                 :  _login
 };

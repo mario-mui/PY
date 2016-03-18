@@ -4,8 +4,12 @@ XApp.service "loginService",['$http',($http)->
   _register = (postData) ->
     $http.post("/user/register",{userRegister:postData})
 
+  _login = (postData) ->
+    $http.post("/user/login",{loginData:postData})
+
   return {
-    register:_register
+    register  :  _register,
+    login     :  _login
   }
 ]
 
@@ -16,6 +20,10 @@ XApp.controller 'loginCtl', ['$scope','$mdToast','loginService',($scope,$mdToast
     email:''
     password:''
 
+  $scope.loginPost =
+    username:''
+    password:''
+
   $scope.register = ->
     _userInfo =
       username:$scope.user.username
@@ -23,22 +31,33 @@ XApp.controller 'loginCtl', ['$scope','$mdToast','loginService',($scope,$mdToast
       password:$scope.user.password
 
     loginService.register(_userInfo)
-    .then (data)->
-      console.log '####',data
+    .then ()->
       $mdToast.show(
         $mdToast.simple()
         .textContent('恭喜恭喜,注册成功!')
         .position('bottom left' )
         .hideDelay(3000)
       )
-    .catch (err)->
-      console.log(err)
+    .catch ()->
       $mdToast.show(
         $mdToast.simple()
         .textContent('注册失败,用户名已经存在')
         .position('bottom left' )
         .hideDelay(3000)
       )
+
+  $scope.login = ->
+    loginService.login($scope.loginPost)
+    .then () ->
+      console.log('####')
+    .catch () ->
+      $mdToast.show(
+        $mdToast.simple()
+        .textContent('登录失败,用户名或密码错误')
+        .position('bottom left' )
+        .hideDelay(3000)
+      )
+
 ]
 
 XApp.directive 'compareTo', ->

@@ -21,6 +21,7 @@ function register (app) {
   /* post method */
   router.post('/user/upload/avatar',userCtl.uploadAvatar);
   router.post('/user/register',userCtl.register);
+  router.post('/user/login',userCtl.login);
 
   app.use(router.routes());
   app.use(router.allowedMethods());

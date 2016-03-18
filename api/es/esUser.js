@@ -39,6 +39,35 @@ var _registerUser = function (userInfo,cb){
 
 };
 
+const _login = function (loginInfo,cb){
+  esClient.search({
+    index: 'py_user',
+    type: 'user',
+    refresh:true,
+    body: {
+      query: {
+        bool:{
+          must:[
+            {term:{username: loginInfo.username}},
+            {term:{password: loginInfo.password}}
+          ]
+        }
+
+      }
+    }
+  }).then(function(res){
+    console.log(res)
+    if(res.hits.total == 0){
+      cb('password or username error',null);
+    }else{
+      cb(null,'login success');
+    }
+  }).catch(function(err){
+    cb(err,null)
+  });
+};
+
 module.exports = {
-  registerUser   :   _registerUser
+  registerUser   :   _registerUser,
+  login          :   _login
 };
