@@ -7,24 +7,20 @@ const userCtl = require(controllerPath+"userController");
 
 
 var Router = require('koa-router');
-function register (app) {
-  var router = new Router();
-  /* add route here*/
+var router = new Router();
 
-  /* get method*/
-  router.get('/',homeCtl.renderHomePage);
-  router.get('/post',postCtl.renderPostPage);
-  router.get('/user/center',userCtl.renderUserCenterPage);
-  router.get('/login',userCtl.renderLoginPage)
-  router.get('/register',userCtl.renderRegisterPage)
+/* add route here*/
+/* get method*/
+router.get('/',homeCtl.renderHomePage);
+router.get('/post',postCtl.renderPostPage);
+router.get('/user/center',userCtl.renderUserCenterPage);
+router.get('/login',userCtl.renderLoginPage);
+router.get('/register',userCtl.renderRegisterPage);
 
-  /* post method */
-  router.post('/user/upload/avatar',userCtl.uploadAvatar);
-  router.post('/user/register',userCtl.register);
-  router.post('/user/login',userCtl.login);
+/* post method */
+router.post('/user/upload/avatar',userCtl.uploadAvatar);
+router.post('/user/register',userCtl.register);
+router.post('/user/login',userCtl.userLogin);
 
-  app.use(router.routes());
-  app.use(router.allowedMethods());
-}
 
-module.exports = register;
+module.exports = router;

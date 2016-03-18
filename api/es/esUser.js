@@ -39,7 +39,7 @@ var _registerUser = function (userInfo,cb){
 
 };
 
-const _login = function (loginInfo,cb){
+const _login = function (username,password,cb){
   esClient.search({
     index: 'py_user',
     type: 'user',
@@ -48,19 +48,25 @@ const _login = function (loginInfo,cb){
       query: {
         bool:{
           must:[
-            {term:{username: loginInfo.username}},
-            {term:{password: loginInfo.password}}
+            {term:{username: username}},
+            {term:{password: password}}
           ]
         }
 
       }
     }
   }).then(function(res){
-    console.log(res)
+
     if(res.hits.total == 0){
       cb('password or username error',null);
     }else{
-      cb(null,'login success');
+      const resUser = res.hits.hits[0];
+      const user = {
+        id:resUser._id,
+        username:resUser._source.username,
+        email:resUser._source.email
+      };
+      cb(null,user);
     }
   }).catch(function(err){
     cb(err,null)

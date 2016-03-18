@@ -5,7 +5,7 @@ XApp.service "loginService",['$http',($http)->
     $http.post("/user/register",{userRegister:postData})
 
   _login = (postData) ->
-    $http.post("/user/login",{loginData:postData})
+    $http.post("/user/login",postData)
 
   return {
     register  :  _register,
@@ -13,7 +13,7 @@ XApp.service "loginService",['$http',($http)->
   }
 ]
 
-XApp.controller 'loginCtl', ['$scope','$mdToast','loginService',($scope,$mdToast,loginService) ->
+XApp.controller 'loginCtl', ['$scope','$mdToast','loginService','$window',($scope,$mdToast,loginService,$window) ->
 
   $scope.user =
     username:''
@@ -48,8 +48,9 @@ XApp.controller 'loginCtl', ['$scope','$mdToast','loginService',($scope,$mdToast
 
   $scope.login = ->
     loginService.login($scope.loginPost)
-    .then () ->
-      console.log('####')
+    .then (data) ->
+      if data.data.success
+        $window.location.href = '/'
     .catch () ->
       $mdToast.show(
         $mdToast.simple()

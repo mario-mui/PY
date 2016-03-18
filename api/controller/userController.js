@@ -4,6 +4,7 @@ var parse = require('co-busboy');
 var shortid = require('shortid');
 var Promise = require('bluebird');
 var esUser = require("../es/esUser");
+var passport = require("koa-passport");
 
 const _renderUserCenterPage = function *(){
   this.render('user/center/index')
@@ -45,15 +46,17 @@ const _register = function* (){
   }
 };
 
-const _login = function* (){
-  const loginData = this.request.body.loginData;
-  esUser.login = Promise.promisify(esUser.login);
-  try {
-    var res = yield esUser.login(loginData);
-    this.response.body = res;
-  }catch (err){
-    this.response.status = 500;
-  }
+const _userLogin = function*(next){
+  var ctx = this;
+  yield passport.authenticate('local', function*(err, user, info) {
+    if (err) throw err;
+    if (user === false) {
+      ctx.status = 401;
+      ctx.body = { success: false}
+    } else {
+      ctx.body = { success: true }
+    }
+  }).call(this, next)
 };
 
 module.exports = {
@@ -62,5 +65,5 @@ module.exports = {
   renderLoginPage       :  _renderLoginPage,
   renderRegisterPage    :  _renderRegisterPage,
   register              :  _register,
-  login                 :  _login
+  userLogin             :  _userLogin
 };
