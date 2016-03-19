@@ -1,7 +1,12 @@
 
 const _renderPostPage =function *(){
-  this.render('postPage/index')
-}
+  if(this.isAuthenticated()){
+    this.render('postPage/index');
+  }else{
+    this.session['returnTo'] = '/post';
+    this.redirect('/login');
+  }
+};
 
 module.exports = {
   renderPostPage:_renderPostPage

@@ -25,10 +25,14 @@ html
           ul.nav.navbar-nav.navbar-right
             li(ng-class="getActiveMenu('/')")
               a(href='/') 首页
-            li(ng-class="getActiveMenu('/user/center')")
-              a(href='/user/center') 宝宝中心
-            li(ng-class="getActiveMenu('/user/logout')")
-              a(href='/user/logout') 退出
+            if user && user.user
+              li(ng-class="getActiveMenu('/user/center')")
+                a(href='/user/center') 宝宝中心
+              li(ng-class="getActiveMenu('/user/logout')")
+                a(href='/user/logout') 退出
+            else
+              li
+                a(href='/login') 登录
             li(ng-class="getActiveMenu('/post')")
               a(href='/post')
                 span.glyphicon.glyphicon-edit

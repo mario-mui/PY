@@ -50,7 +50,7 @@ XApp.controller 'loginCtl', ['$scope','$mdToast','loginService','$window',($scop
     loginService.login($scope.loginPost)
     .then (data) ->
       if data.data.success
-        $window.location.href = '/'
+        $window.location.href = data.data.returnTo || '/'
     .catch () ->
       $mdToast.show(
         $mdToast.simple()

@@ -7,7 +7,12 @@ var esUser = require("../es/esUser");
 var passport = require("koa-passport");
 
 const _renderUserCenterPage = function *(){
-  this.render('user/center/index')
+  if(this.isAuthenticated()){
+    this.render('user/center/index')
+  }else{
+    this.session['returnTo'] = '/user/center';
+    this.redirect('/login');
+  }
 };
 
 const _uploadAvatar = function *(){
@@ -27,7 +32,11 @@ const _uploadAvatar = function *(){
 };
 
 const _renderLoginPage = function * (){
-  this.render('user/login/index')
+  if(this.isAuthenticated()){
+    this.redirect('/')
+  }else{
+    this.render('user/login/index')
+  }
 };
 
 const _renderRegisterPage = function * (){
@@ -55,7 +64,7 @@ const _userLogin = function*(next){
       ctx.body = { success: false}
     } else {
       yield ctx.login(user);
-      ctx.body = { success: true }
+      ctx.body = { success: true ,returnTo:ctx.session.returnTo}
     }
   }).call(this, next)
 };

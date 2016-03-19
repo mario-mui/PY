@@ -27,6 +27,12 @@ const jade = new Jade({
   app: app
 });
 
+//koa state
+app.use(function*(next){
+  this.state.user = this.session.passport;
+  yield next;
+});
+
 /* add app route*/
 const route = require('./config/route');
 app.use(route.middleware());
