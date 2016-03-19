@@ -16,6 +16,7 @@ router.get('/post',postCtl.renderPostPage);
 router.get('/user/center',userCtl.renderUserCenterPage);
 router.get('/login',userCtl.renderLoginPage);
 router.get('/register',userCtl.renderRegisterPage);
+router.get('/user/logout',userCtl.logout);
 
 /* post method */
 router.post('/user/upload/avatar',userCtl.uploadAvatar);

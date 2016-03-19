@@ -54,9 +54,15 @@ const _userLogin = function*(next){
       ctx.status = 401;
       ctx.body = { success: false}
     } else {
+      yield ctx.login(user);
       ctx.body = { success: true }
     }
   }).call(this, next)
+};
+
+const _logout = function* (){
+  this.logout();
+  this.redirect('/');
 };
 
 module.exports = {
@@ -65,5 +71,6 @@ module.exports = {
   renderLoginPage       :  _renderLoginPage,
   renderRegisterPage    :  _renderRegisterPage,
   register              :  _register,
-  userLogin             :  _userLogin
+  userLogin             :  _userLogin,
+  logout                :  _logout
 };

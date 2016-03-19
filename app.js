@@ -1,4 +1,3 @@
-const staic = require('koa-static');
 const koa = require('koa');
 const app = koa();
 
@@ -45,6 +44,7 @@ console.log('pinyou server is started');
 /*
 * set static dir
 * */
+const staic = require('koa-static');
 app.use(staic(__dirname + '/public'));
 app.use(staic(__dirname + '/bower_components'));
 app.use(staic(__dirname + '/user'));
