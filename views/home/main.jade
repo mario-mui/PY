@@ -3,6 +3,7 @@ block styles
   link(href='/styles/homePage.css', rel='stylesheet')
 block body
   div(ng-controller='homeCtl')
+    //.container.main-container(infinite-scroll='reddit.nextPage()', infinite-scroll-disabled='reddit.busy', infinite-scroll-distance='2')
     .container.main-container
       .row(ng-repeat='info in PYinfo')
         .col-md-8.col-md-offset-2
@@ -25,6 +26,7 @@ block body
                   span.glyphicon.glyphicon-thumbs-down
                 a(href="#")
                   span.glyphicon.glyphicon-plus
+      div(ng-show='reddit.busy') Loading data...
 
 block js
   script(src="/angular-bootstrap/ui-bootstrap.min.js")

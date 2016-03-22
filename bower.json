@@ -24,6 +24,7 @@
     "bootstrap": "^3.3.6",
     "angular-material": "^1.0.6",
     "underscore": "^1.8.3",
-    "lf-ng-md-file-input": "^1.4.0"
+    "lf-ng-md-file-input": "^1.4.0",
+    "ngInfiniteScroll": "^1.2.2"
   }
 }

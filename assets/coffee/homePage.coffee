@@ -2,8 +2,34 @@ PYApp.service "homeService",['$http',($http)->
 
 ]
 
-PYApp.controller 'homeCtl',['$scope','homeService','$uibModal',($scope,homeService,$uibModal)->
+PYApp.factory 'PYload', ['$http',($http) ->
 
+  PYload = ->
+    @items = []
+    @busy = false
+    @after = ''
+
+  PYload::nextPage = ->
+    if @busy
+      return
+    @busy = true
+    url = 'https://api.reddit.com/hot?after=' + @after + '&jsonp=JSON_CALLBACK'
+    $http.jsonp(url).success ((data) ->
+      items = data.data.children
+      i = 0
+      while i < items.length
+        @items.push items[i].data
+        i++
+      @after = 't3_' + @items[@items.length - 1].id
+      @busy = false
+    ).bind(this)
+
+  PYload
+]
+
+PYApp.controller 'homeCtl',['$scope','homeService','$uibModal','PYload',($scope,homeService,$uibModal,PYload)->
+
+  $scope.reddit = new PYload();
   $scope.PYinfo = [
     {
       id:1
