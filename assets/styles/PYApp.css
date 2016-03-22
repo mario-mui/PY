@@ -46,3 +46,24 @@
 .postSubmit{
   margin-top: 20px;
 }
+
+.hidePage {
+  display: none;
+}
+
+@keyframes fadeIn {
+  0% {opacity: 0 ;}
+  40% {opacity: 0.5 ;}
+  100% {opacity: 1 ;}
+}
+@-webkit-keyframes fadeIn {
+  0% {opacity: 0 ;}
+  40% {opacity: 0.5 ;}
+  100% {opacity: 1 ;}
+}
+.wrapper-post {
+  display: block;
+  animation: fadeIn;
+  animation-duration: 1s;
+  -webkit-animation:fadeIn 1s;
+}

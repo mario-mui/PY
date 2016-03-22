@@ -3,7 +3,7 @@ block styles
   link(href='/styles/postPY.css', rel='stylesheet')
   link(rel="stylesheet" href="/lf-ng-md-file-input/dist/lf-ng-md-file-input.min.css")
 block body
-  .container.main-container(ng-controller='postCtl')
+  md-content.hidePage.container.main-container(ng-controller='postCtl' ng-class="{'wrapper-post':showPostPage}" layout="column")
     .row
       .col-md-8.col-md-offset-2.postTitle
         h2 发布新的拼邮
@@ -18,11 +18,28 @@ block body
                 div(ng-message='required') 请输入标题
                 div(ng-message='md-maxlength') 标题长度不能超过30
 
-          md-datepicker.arrivalDate(required='', name='arrivalDate', ng-model='postPY.arrivalDate' md-placeholder='大约到达时间')
+          md-datepicker.arrivalDate(required='', name='deadline', ng-model='postPY.deadline' md-placeholder='截止日期')
+        div(layout='row')
 
-        md-input-container.md-block(flex='')
-          label 拼邮数量
-          input(type='number' maxlength='2', required='', name='count', ng-model='postPY.count')
+          md-input-container.md-block(flex='')
+            label 拼邮总单数
+            input(type='number' maxlength='2', required='', name='count', ng-model='postPY.count')
+          md-input-container.md-block(flex='')
+            label 商品价格
+            input(type='number' maxlength='10', required='', name='price', ng-model='postPY.price')
+          md-input-container.md-block(flex='')
+            label 预计几天到达
+            input(type='number' maxlength='2', required='', name='arriveDate', ng-model='postPY.arriveDate')
+
+        div(layout='row')
+
+          md-input-container.md-block(flex='')
+            label 品牌
+            input(type='text' md-maxlength='20', required='', name='goodBrand', ng-model='postPY.goodBrand')
+
+          md-input-container.md-block(flex='')
+            label 来源
+            input(type='text' md-maxlength='10', required='', name='goodFrom', ng-model='postPY.goodFrom')
 
         md-input-container.md-block(flex='')
           label 商品链接
@@ -32,10 +49,10 @@ block body
               div(ng-message='required') 请输入标题
               div(ng-message='md-maxlength') 标题长度不能超过150
 
-        div(layout='row' ng-repeat='(k,v) in postPY.attr')
-          h2.md-title(ng-bind="(attrs[k])+':'",flex='20')
-          md-chips(ng-model="v" readonly="false",flex='80')
-          md-button.md-fab.md-warn.md-mini(ng-click='removeAttr(k)')
+        div(layout='row' ng-repeat='ats in postPY.attr')
+          h2.md-title(ng-bind="(attrs[ats.attr_key])+':'",flex='20')
+          md-chips(ng-model="ats.attr_value" readonly="false",flex='80')
+          md-button.md-fab.md-warn.md-mini(ng-click='removeAttr(ats.attr_key)')
             md-icon(md-svg-src="/imgs/icons/ic_remove.svg" aria-label='删除商品属性')
 
         div(layout='row')
@@ -55,7 +72,9 @@ block body
         lf-ng-md-file-input(lf-files='postPY.imgs', lf-placeholder='上传商品图片',lf-browse-label="点击上传图片" , lf-remove-label='删除所有', multiple, preview accept="image/*")
 
         .postSubmit(layout='row')
-          md-button.md-raised.md-primary(ng-click='submit()' ng-disabled='!postPYForm.$dirty || !postPYForm.$valid') 发布拼邮
+          md-button.md-raised.md-primary(ng-click='post()') 发布拼邮
+          //ng-disabled='!postPYForm.$dirty || !postPYForm.$valid'
+
 block js
   script(src="/angular-bootstrap/ui-bootstrap.min.js")
   script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")

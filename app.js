@@ -37,14 +37,6 @@ app.use(function*(next){
 const route = require('./config/route');
 app.use(route.middleware());
 
-//app.use(function*(next) {
-// console.log(this.session)
-//  if (this.isAuthenticated()) {
-//    yield next
-//  } else {
-//    this.redirect('/login')
-//  }
-//});
 
 console.log('pinyou server is started');
 /*

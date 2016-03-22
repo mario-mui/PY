@@ -6,3 +6,6 @@
 .arrivalDate {
   margin: 18px 0px;
 }
+md-toast {
+  position: fixed !important;
+}

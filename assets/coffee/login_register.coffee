@@ -1,4 +1,4 @@
-XApp = angular.module('XApp',['ngMaterial'])
+XApp = angular.module('XApp',['ngMaterial','angular-md5'])
 
 XApp.service "loginService",['$http',($http)->
   _register = (postData) ->
@@ -13,7 +13,7 @@ XApp.service "loginService",['$http',($http)->
   }
 ]
 
-XApp.controller 'loginCtl', ['$scope','$mdToast','loginService','$window',($scope,$mdToast,loginService,$window) ->
+XApp.controller 'loginCtl', ['$scope','$mdToast','loginService','$window','md5',($scope,$mdToast,loginService,$window,md5) ->
 
   $scope.user =
     username:''
@@ -28,37 +28,27 @@ XApp.controller 'loginCtl', ['$scope','$mdToast','loginService','$window',($scop
     _userInfo =
       username:$scope.user.username
       email:$scope.user.email
-      password:$scope.user.password
+      password:md5.createHash($scope.user.password || '')
 
     loginService.register(_userInfo)
     .then ()->
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent('恭喜恭喜,注册成功!')
-        .position('bottom left' )
-        .hideDelay(3000)
-      )
-    .catch ()->
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent('注册失败,用户名已经存在')
-        .position('bottom left' )
-        .hideDelay(3000)
+      $mdToast.showSimple('恭喜恭喜,注册成功!')
+      setTimeout(()->
+        $window.location.href = '/login'
+      ,500
       )
 
+    .catch ()->
+      $mdToast.showSimple('注册失败,用户名已经存在')
+
   $scope.login = ->
+    $scope.loginPost.password = md5.createHash($scope.loginPost.password)
     loginService.login($scope.loginPost)
     .then (data) ->
       if data.data.success
         $window.location.href = data.data.returnTo || '/'
     .catch () ->
-      $mdToast.show(
-        $mdToast.simple()
-        .textContent('登录失败,用户名或密码错误')
-        .position('bottom left' )
-        .hideDelay(3000)
-      )
-
+      $mdToast.showSimple('登录失败,用户名或密码错误')
 ]
 
 XApp.directive 'compareTo', ->

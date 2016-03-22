@@ -4,6 +4,7 @@ const controllerPath = __dirname + "/../api/controller/";
 const homeCtl = require(controllerPath+"homeController");
 const postCtl = require(controllerPath+"postController");
 const userCtl = require(controllerPath+"userController");
+const comCtl = require(controllerPath+"commonController");
 
 
 var Router = require('koa-router');
@@ -17,11 +18,15 @@ router.get('/user/center',userCtl.renderUserCenterPage);
 router.get('/login',userCtl.renderLoginPage);
 router.get('/register',userCtl.renderRegisterPage);
 router.get('/user/logout',userCtl.logout);
+router.get('/py/attr.json',postCtl.getAllAttr);
 
 /* post method */
 router.post('/user/upload/avatar',userCtl.uploadAvatar);
+router.post('/post/upload/imgs',postCtl.uploadImgs);
 router.post('/user/register',userCtl.register);
 router.post('/user/login',userCtl.userLogin);
+router.post('/pyInfo/post.json',postCtl.postPY);
+router.post('/delete/user/img.json',comCtl.deleteUserImgs);
 
 
 module.exports = router;

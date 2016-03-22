@@ -2,7 +2,7 @@ var esClient = require("./esClient");
 
 var createUser = function (userInfo,cb){
   esClient.create({
-      index: 'py_user',
+      index: 'py_tpl',
       type: 'user',
       body: userInfo
     })
@@ -14,7 +14,7 @@ var createUser = function (userInfo,cb){
 var _registerUser = function (userInfo,cb){
 
   esClient.search({
-    index: 'py_user',
+    index: 'py_tpl',
     type: 'user',
     body: {
       query: {
@@ -41,7 +41,7 @@ var _registerUser = function (userInfo,cb){
 
 const _login = function (username,password,cb){
   esClient.search({
-    index: 'py_user',
+    index: 'py_tpl',
     type: 'user',
     refresh:true,
     body: {
