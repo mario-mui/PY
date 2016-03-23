@@ -1,5 +1,5 @@
 .modal-header
-  button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+  button.close(type='button', data-dismiss='modal', aria-hidden='true' ng-click='close()') ×
   h4.modal-title 阿迪拼邮
 .modal-body
   .row
@@ -10,26 +10,26 @@
             | 价格 :
           .col-sm-6
             .form-control-static
-              | 500
+              | {{detail.price}}
         .form-group
           .col-sm-3.control-label.text-left
             | 大约到达时间 :
           .col-sm-6
             .form-control-static
-              | 30天
+              | {{detail.arrive_date}}天
         .form-group
           .col-sm-3.control-label.text-left
             | 商品链接 :
           .col-sm-6
             .form-control-static
-              a(href='http://www.baidu.com') meiguo
-        .form-group(ng-repeat="(k,v) in goodsAttr")
-          info-attr(value='v',check-value='v.checkValue')
+              a(ng-href='detail.good_link') 链接(点我)
+        .form-group(ng-repeat="attr in detail.good_attr")
+          info-attr(value='attr',check-value='attr.checkValue' ,attr-map='attrMap')
         .form-group
           .col-sm-3.control-label.text-left
             | 数量 :
-          .col-sm-6
-            input(type='number')
+          .col-sm-3
+            input.form-control(type='number')
         .form-group
           .col-sm-3.control-label.text-left
             | 状态 :
@@ -48,19 +48,19 @@
               | 发布人 :
             .col-sm-6
               .form-control-static
-                a(href='') mario
+                a(href='') {{detail.username}}
           .form-group
             .col-sm-4.control-label.text-left
               | 信誉度 :
             .col-sm-6
-              .form-control-static
-                a(href='') mario
+              .rate.form-control-static
+                uib-rating(ng-model='rate' read-only='true')
           .form-group
             .col-sm-4.control-label.text-left
               | 联系方式 :
             .col-sm-6
               .form-control-static
-                | 165XXXXXXX
+                | {{detail.email}}
 
 .modal-foot
   uib-tabset
@@ -69,18 +69,15 @@
         .detail-area-title
           .row
             .col-sm-6
-              span 商品品牌: 阿迪
+              span 商品品牌: {{detail.good_brand}}
             .col-sm-6
-              span 商品来源: 美国
+              span 商品来源: {{detail.good_from}}
         .detail-area-desc
           P
-            | That support is great, but I ran into trouble wanting to a
+            | {{detail.good_desc}}
 
         .detail-area-img
-          img(ng-src='/userImg/detail1.jpg')
-          img(ng-src='/userImg/detail2.jpg')
-          img(ng-src='/userImg/detail3.jpg')
-          img(ng-src='/userImg/detail4.jpg')
+          img(ng-repeat="img in detail.good_imgs" ng-src='/userImg/{{img}}')
 
     uib-tab(index='1', heading='评论')
       .comment-area

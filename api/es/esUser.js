@@ -1,6 +1,6 @@
-var esClient = require("./esClient");
+const esClient = require("./esClient");
 
-var createUser = function (userInfo,cb){
+const createUser = function (userInfo,cb){
   esClient.create({
       index: 'py_tpl',
       type: 'user',
@@ -11,7 +11,7 @@ var createUser = function (userInfo,cb){
     })
 };
 
-var _registerUser = function (userInfo,cb){
+const _registerUser = function (userInfo,cb){
 
   esClient.search({
     index: 'py_tpl',
@@ -73,7 +73,17 @@ const _login = function (username,password,cb){
   });
 };
 
+
+const _getInfoByUserId = function (userId){
+  var promise = esClient.get({
+    index: 'py_tpl',
+    type: 'user',
+    id:userId
+  });
+  return promise;
+};
 module.exports = {
-  registerUser   :   _registerUser,
-  login          :   _login
+  registerUser    :   _registerUser,
+  login           :   _login,
+  getInfoByUserId :   _getInfoByUserId
 };

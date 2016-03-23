@@ -1,5 +1,19 @@
 PYApp.service "homeService",['$http',($http)->
 
+  _getAllAttr = ()->
+    $http.get('/py/attr.json')
+
+  _getListByOffset = (_serach,_from)->
+    $http.post('/get/py/list.json',{search:_serach,from:_from})
+
+  _getDetailById = (_id) ->
+    $http.post('/get/py/detail.json',{id:_id})
+
+  return {
+    getListByOffset   :   _getListByOffset
+    getDetailById     :   _getDetailById
+    getAllAttr        :   _getAllAttr
+  }
 ]
 
 PYApp.factory 'PYload', ['$http',($http) ->
@@ -27,74 +41,47 @@ PYApp.factory 'PYload', ['$http',($http) ->
   PYload
 ]
 
-PYApp.controller 'homeCtl',['$scope','homeService','$uibModal','PYload',($scope,homeService,$uibModal,PYload)->
+PYApp.controller 'homeCtl',['$scope','homeService','$uibModal','PYload','$http',($scope,homeService,$uibModal,PYload,$http)->
 
   $scope.reddit = new PYload();
-  $scope.PYinfo = [
-    {
-      id:1
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-    {
-      id:2
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-    {
-      id:3
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-    {
-      id:4
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-    {
-      id:5
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-    {
-      id:6
-      title:'adidas'
-      imgs:['/userImg/img1.jpg','/userImg/img2.jpg','/userImg/img3.jpg']
-      desc:'With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.With supporting text below as a natural lead-in to additional content.'
-      flags:['#鞋子','#美国','#adidas']
-      date:'2016-03-01'
-    }
-  ]
+
+  $scope.PYinfo = []
+  attrMap = {}
+
+  homeService.getListByOffset('',0)
+  .then (data)->
+    _.map data.data ,(_pyInfo)->
+      _pyInfo.imgs = _pyInfo.imgs[..2]
+      $scope.PYinfo.push _pyInfo
+  homeService.getAllAttr()
+  .then (data)->
+    attrMap = data.data
 
   $scope.showDetail = (_id)->
+    _info = {
+      id:_id
+      attrMap:attrMap
+    }
     $uibModal.open({
       templateUrl: '/dialog/homeInfoDetail.html',
       controller: 'homeDetailCtl',
       windowClass:'homeInfoDetail'
       resolve:
         info:  ()->
-          return angular.copy(_id)
+          return angular.copy(_info)
     })
+
 ]
 
 
-PYApp.controller 'homeDetailCtl',['$scope','info',($scope,info)->
+PYApp.controller 'homeDetailCtl',['$scope','info','homeService',($scope,info,homeService)->
   $scope.rate = 0
+  $scope.attrMap = info.attrMap
+
+  homeService.getDetailById(info.id)
+  .then (data)->
+    $scope.detail = data.data
+
   $scope.goodsAttr =
     {
       color:{
@@ -112,5 +99,8 @@ PYApp.controller 'homeDetailCtl',['$scope','info',($scope,info)->
   $scope.commentRateHover = (_value)->
     $scope.overStar = _value
     $scope.rateInfo = rateMap[_value]
+
+  $scope.close = ()->
+    $scope.$dismiss('cancel')
 ]
 

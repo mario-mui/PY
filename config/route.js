@@ -27,6 +27,8 @@ router.post('/user/register',userCtl.register);
 router.post('/user/login',userCtl.userLogin);
 router.post('/pyInfo/post.json',postCtl.postPY);
 router.post('/delete/user/img.json',comCtl.deleteUserImgs);
+router.post('/get/py/list.json',homeCtl.getPYList);
+router.post('/get/py/detail.json',homeCtl.getPYDetailById);
 
 
 module.exports = router;

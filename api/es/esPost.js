@@ -1,4 +1,4 @@
-var esClient = require("./esClient");
+const esClient = require("./esClient");
 const Promise = require("bluebird");
 
 var _getAllAttr = function (cb){

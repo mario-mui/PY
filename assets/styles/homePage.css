@@ -166,3 +166,9 @@ detail area
 .detail-area-img {
   text-align: center;
 }
+.detail-area-img img {
+  width: 100%;
+}
+.goodAttrActive {
+  background: #26C6DA;
+}

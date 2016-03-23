@@ -53,6 +53,7 @@ const _postPY = function *(){
     create_user_id:ctx.session.passport.user,
     title:postInfo.title,
     deadline:parseInt(moment(postInfo.deadline).format('x')),
+    create_time:moment().valueOf(),
     count:postInfo.count,
     price:postInfo.price,
     arrive_date:postInfo.arriveDate,

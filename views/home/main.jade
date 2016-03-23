@@ -20,7 +20,7 @@ block body
                 a(href="#" ng-repeat='flag in info.flags' ng-bind='flag')
             .card-footer.row
               .card-footer-date.col-md-6
-                span(ng-bind='info.date')
+                span(ng-bind="info.createTime | date:'yyyy-MM-dd'")
               .card-footer-control.col-md-6
                 a(href="#")
                   span.glyphicon.glyphicon-thumbs-down

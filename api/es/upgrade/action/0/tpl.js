@@ -11,6 +11,9 @@ module.exports = {
           type: 'string',
           index: 'not_analyzed'
         },
+        credit:{
+          type: 'short'
+        },
         email:{
           type: 'string',
           index: 'not_analyzed'
@@ -44,6 +47,9 @@ module.exports = {
           index: 'not_analyzed'
         },
         deadline:{
+          type: 'long'
+        },
+        create_time:{
           type: 'long'
         },
         count:{
