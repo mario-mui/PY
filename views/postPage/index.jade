@@ -72,7 +72,7 @@ block body
         lf-ng-md-file-input(lf-files='postPY.imgs', lf-placeholder='上传商品图片',lf-browse-label="点击上传图片" , lf-remove-label='删除所有', multiple, preview accept="image/*")
 
         .postSubmit(layout='row')
-          md-button.md-raised.md-primary(ng-click='post()') 发布拼邮
+          md-button.md-raised.md-primary(ng-click='post()' ng-disabled='!postPYForm.$dirty || !postPYForm.$valid') 发布拼邮
           //ng-disabled='!postPYForm.$dirty || !postPYForm.$valid'
 
 block js

@@ -23,13 +23,17 @@
           .col-sm-6
             .form-control-static
               a(ng-href='detail.good_link') 链接(点我)
-        .form-group(ng-repeat="attr in detail.good_attr")
-          info-attr(value='attr',check-value='attr.checkValue' ,attr-map='attrMap')
+        .attrContent(ng-class="{'error':attrSelectError}")
+          .form-group(ng-repeat="attr in detail.good_attr" )
+            info-attr(value='attr',check-value='attr.checkValue' ,attr-map='attrMap')
+          .attrError.hidePage(ng-class="{error:attrSelectError}")
+            span.text 请勾选您要的商品信息!
+            button.close.bt(type='button',ng-click='cleanAttrSelectError()') ×
         .form-group
           .col-sm-3.control-label.text-left
             | 数量 :
           .col-sm-3
-            input.form-control(type='number')
+            input.form-control(type='number' ng-model='applyNum')
         .form-group
           .col-sm-3.control-label.text-left
             | 状态 :
@@ -38,7 +42,7 @@
               span() 3 / 10
         .form-group
           .col-sm-6.col-sm-offset-3
-            button.btn.btn-primary(ng-click="apply()") 申请拼邮
+            button.btn.btn-primary(ng-click="applyPY()" ng-disabled='applyNum==0') 申请拼邮
 
     .col-md-4
       .posterInfo

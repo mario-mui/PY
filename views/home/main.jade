@@ -9,7 +9,7 @@ block body
         .col-md-8.col-md-offset-2
           .card.text-xs-center
             .card-header
-              a(href='javascript:void(0)' ng-bind='info.title' ng-click='showDetail(info.id)')
+              a(ng-href='/py/detail/{{info.id}}' ng-bind='info.title' target="_blank")
             .card-block
               .card-block-img
                 .card-img(ng-repeat='img in info.imgs')

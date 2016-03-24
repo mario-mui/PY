@@ -5,6 +5,7 @@ const homeCtl = require(controllerPath+"homeController");
 const postCtl = require(controllerPath+"postController");
 const userCtl = require(controllerPath+"userController");
 const comCtl = require(controllerPath+"commonController");
+const detailCtl = require(controllerPath+"detailController");
 
 
 var Router = require('koa-router');
@@ -19,6 +20,7 @@ router.get('/login',userCtl.renderLoginPage);
 router.get('/register',userCtl.renderRegisterPage);
 router.get('/user/logout',userCtl.logout);
 router.get('/py/attr.json',postCtl.getAllAttr);
+router.get('/py/detail/:id',detailCtl.renderDetailPage);
 
 /* post method */
 router.post('/user/upload/avatar',userCtl.uploadAvatar);
@@ -28,7 +30,7 @@ router.post('/user/login',userCtl.userLogin);
 router.post('/pyInfo/post.json',postCtl.postPY);
 router.post('/delete/user/img.json',comCtl.deleteUserImgs);
 router.post('/get/py/list.json',homeCtl.getPYList);
-router.post('/get/py/detail.json',homeCtl.getPYDetailById);
+router.post('/get/py/detail.json',detailCtl.getPYDetailById);
 
 
 module.exports = router;

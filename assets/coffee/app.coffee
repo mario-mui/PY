@@ -36,10 +36,10 @@ PYApp.directive 'infoAttr', ->
     modelValue:"=value"
     checkValue:"="
     attrMap:"="
-  template: """ <div class='col-sm-3 control-label'>
-                <span ng-bind="(attrMap[modelValue.attr_key])+':'"></span>
+  template: """ <div flex='40' class='key'>
+                <span ng-bind="(attrMap[modelValue.attr_key])+' :'"></span>
               </div>
-              <div class='col-sm-6'>
+              <div flex='60' class='value'>
                 <ul class='goods-param ng-goods-param'>
                   <li class='goods-param-li' ng-repeat='value in modelValue.attr_value' ng-click='choose(value)' ng-class='{goodAttrActive:checkValue == value}'>
                     <span ng-bind='value'></span>
