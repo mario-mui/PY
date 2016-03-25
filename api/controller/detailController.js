@@ -15,7 +15,6 @@ const _getPYDetailById = function*(){
 };
 
 const _renderDetailPage = function*(){
-  console.log(this.params.id);
   try {
     yield esPY.getInfoById(this.params.id);
     this.render('detail/index');
@@ -24,7 +23,31 @@ const _renderDetailPage = function*(){
   }
 };
 
+const _applyPY = function *(){
+  var  ctx = this;
+  if(!(_.has(ctx.session,'passport')) || _.isEmpty(ctx.session.passport)){
+    ctx.throw(400,'not login');
+  }
+  if (ctx.session.passport == ctx.request.body.createPYUserId){
+    ctx.throw(400,'the same people');
+  }
+  var _PYInfo = {
+    py_info_id:ctx.request.body.PYInfoId,
+    apply_user_id:ctx.session.passport.user,
+    apply_attr:ctx.request.body.applyAttr,
+    apply_count:ctx.request.body.applyNum,
+    apply_state:false
+  };
+  try {
+    esPY.applyPY(_PYInfo);
+  }catch (err){
+    ctx.throw(400,err);
+  }
+  ctx.status = 200;
+};
+
 module .exports ={
   renderDetailPage    :   _renderDetailPage,
-  getPYDetailById     :   _getPYDetailById
+  getPYDetailById     :   _getPYDetailById,
+  applyPY             :   _applyPY
 };

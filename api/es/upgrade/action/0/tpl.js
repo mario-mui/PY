@@ -103,6 +103,9 @@ module.exports = {
         },
         apply_count:{
           type:'short'
+        },
+        apply_state:{
+          type:'boolean'
         }
       }
     }

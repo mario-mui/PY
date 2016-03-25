@@ -34,7 +34,7 @@ const _getPYByOffset = function(_search,from){
   return promise
 };
 
-_getInfoById = function (_id){
+const _getInfoById = function (_id){
   var promise = esClient.get({
     index: 'py_tpl',
     type: 'py_info',
@@ -43,7 +43,17 @@ _getInfoById = function (_id){
   return promise;
 };
 
+const _applyPY = function(_applyInfo){
+  var promise = esClient.create({
+    index:'py_tpl',
+    type:'py_apply',
+    body: _applyInfo
+  });
+  return promise
+};
+
 module.exports = {
-  getPYByOffset    :   _getPYByOffset,
-  getInfoById     :   _getInfoById
+  getPYByOffset     :   _getPYByOffset,
+  getInfoById       :   _getInfoById,
+  applyPY           :   _applyPY
 };

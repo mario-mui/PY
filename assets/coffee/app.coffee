@@ -1,4 +1,4 @@
-PYApp = angular.module('PYApp',['ui.bootstrap','ngMaterial','lfNgMdFileInput','infinite-scroll'])
+PYApp = angular.module('PYApp',['ui.bootstrap','ngMaterial','lfNgMdFileInput','infinite-scroll','angular-md5'])
 
 ##评论等级对应表
 rateMap =

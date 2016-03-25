@@ -108,3 +108,7 @@ detail area
 md-toast {
   position: fixed !important;
 }
+.dialogLoginBody{
+  height: 260px;
+  width: 300px;
+}
