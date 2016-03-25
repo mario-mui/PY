@@ -28,7 +28,7 @@ const _applyPY = function *(){
   if(!(_.has(ctx.session,'passport')) || _.isEmpty(ctx.session.passport)){
     ctx.throw(400,'not login');
   }
-  if (ctx.session.passport == ctx.request.body.createPYUserId){
+  if (ctx.session.passport.user == ctx.request.body.createPYUserId){
     ctx.throw(400,'the same people');
   }
   var _PYInfo = {
@@ -39,7 +39,7 @@ const _applyPY = function *(){
     apply_state:false
   };
   try {
-    esPY.applyPY(_PYInfo);
+    yield esPY.applyPY(_PYInfo);
   }catch (err){
     ctx.throw(400,err);
   }

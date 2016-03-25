@@ -4,7 +4,7 @@ form(name='infoForm')
     .col-md-8
       md-input-container.md-block(flex='')
         label 昵称
-        input(md-maxlength='10', required='', name='nickname', ng-model='info.nickname')
+        input(md-maxlength='10', required='', name='nickname', ng-model='userInfo.nickname')
         .hint(ng-if='showHints') 想一个好听的昵称
           div(ng-messages='infoForm.nickname.$error', ng-if='!showHints')
             div(ng-message='required') 请输入昵称
@@ -12,7 +12,7 @@ form(name='infoForm')
 
       md-input-container.md-block(flex='')
         label 电话
-        input(maxlength='11',type='number', required='', name='phone', ng-model='info.phone')
+        input(maxlength='11',type='number', required='', name='phone', ng-model='userInfo.phone')
         .hint(ng-if='showHints') 嘿,我想要下你的电话
           div(ng-messages='infoForm.phone.$error', ng-if='!showHints')
             div(ng-message='required') 请输入电话
@@ -21,7 +21,7 @@ form(name='infoForm')
       md-input-container.md-block(flex='')
         label 邮箱
 
-        input(required='',type='email' name='email', ng-model='info.email', md-maxlength='100')
+        input(required='',type='email' name='email', ng-model='userInfo.email', md-maxlength='100')
         .hint(ng-if='showHints') 可以留下你的邮箱吗
           div(ng-messages='infoForm.email.$error', ng-if='!showHints')
             div(ng-message='required') 请输入邮箱
@@ -29,19 +29,19 @@ form(name='infoForm')
 
       md-input-container.md-block(flex='')
         label 收件地址
-        input(md-maxlength='50', required='', name='address', ng-model='info.address')
+        input(md-maxlength='50', required='', name='address', ng-model='userInfo.address')
         .hint(ng-if='showHints') 别写错收件地址哦
           div(ng-messages='infoForm.address.$error', ng-if='!showHints')
             div(ng-message='required') 请输入收件地址
             div(ng-message='md-maxlength') 收件地址长度不能超过50
 
       .postSubmit
-        md-button.md-raised.md-primary(ng-click='submit()' ng-disabled='!infoForm.$dirty || !infoForm.$valid') 保存
+        md-button.md-raised.md-primary(ng-click='saveUserInfo()' ng-disabled='!infoForm.$dirty || !infoForm.$valid') 保存
 
     .col-md-4
       md-card
         md-card-header
           md-card-avatar.md-card-avatar
-            img.md-user-avatar(ng-src="/avatar/{{info.avatar}}" align='middle' height='160' width='120')
+            img.md-user-avatar(ng-src="/avatar/{{userInfo.avatar || 'defaultAvatar.png'}}" align='middle' height='160' width='120')
           input(type='file' name='avatar' onchange="angular.element(this).scope().uploadFile(this.files)" accept='image/*')
 

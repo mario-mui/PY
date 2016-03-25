@@ -2,7 +2,7 @@ extends ../../layout/app_layout
 block styles
   link(href='/styles/user.css', rel='stylesheet')
 block body
-  .container.main-container(ng-controller='userCenterCtl' ng-cloak)
+  .container.main-container(ng-controller='userCenterCtl' ng-init="initUserCenter()" ng-cloak)
     .row
       .col-md-8.col-md-offset-2.postTitle
         md-content

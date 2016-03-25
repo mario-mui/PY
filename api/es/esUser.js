@@ -78,12 +78,30 @@ const _getInfoByUserId = function (userId){
   var promise = esClient.get({
     index: 'py_tpl',
     type: 'user',
-    id:userId
+    id:userId,
+    _source:['username','nickname','email','phone','address','avatar']
   });
   return promise;
 };
+
+const _saveUserInfoById = function (userId,userInfo){
+
+  var promise = esClient.update({
+    index: 'py_tpl',
+    type: 'user',
+    id:userId,
+    body:{
+      doc:userInfo
+    }
+  });
+  return promise;
+
+};
+
+
 module.exports = {
-  registerUser    :   _registerUser,
-  login           :   _login,
-  getInfoByUserId :   _getInfoByUserId
+  registerUser      :   _registerUser,
+  login             :   _login,
+  getInfoByUserId   :   _getInfoByUserId,
+  saveUserInfoById  :   _saveUserInfoById
 };

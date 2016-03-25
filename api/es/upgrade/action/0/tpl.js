@@ -7,6 +7,14 @@ module.exports = {
           type: 'string',
           index: 'not_analyzed'
         },
+        nickname:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        phone:{
+          type: 'long',
+          index: 'not_analyzed'
+        },
         state:{
           type: 'string',
           index: 'not_analyzed'
@@ -19,6 +27,14 @@ module.exports = {
           index: 'not_analyzed'
         },
         password:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        address:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        avatar:{
           type: 'string',
           index: 'not_analyzed'
         }

@@ -1,33 +1,49 @@
-var fs = require('fs');
-var path = require('path');
-var parse = require('co-busboy');
-var shortid = require('shortid');
-var Promise = require('bluebird');
-var esUser = require("../es/esUser");
-var passport = require("koa-passport");
+const fs = require('fs');
+const _ = require('underscore');
+const path = require('path');
+const parse = require('co-busboy');
+const shortid = require('shortid');
+const Promise = require('bluebird');
+const esUser = require("../es/esUser");
+const passport = require("koa-passport");
+
 
 const _renderUserCenterPage = function *(){
-  if(this.isAuthenticated()){
+  //if(this.isAuthenticated()){
     this.render('user/center/index')
-  }else{
-    this.session['returnTo'] = '/user/center';
-    this.redirect('/login');
-  }
+//}else{
+//    this.session['returnTo'] = '/user/center';
+//    this.redirect('/login');
+//  }
 };
 
 const _uploadAvatar = function *(){
-
+  var ctx = this;
+  if(!ctx.isAuthenticated()){
+    ctx.throw(400,'not login');
+  }
+  var userId = ctx.session.passport.user;
   var parts = parse(this);
   var part;
   var avatarPath = __dirname + '../../../user/avatar/';
+  var avatarName = {}
   while (part = yield parts) {
-    var avatarName = shortid() + '.png'
+    var fns = part.filename.split('.');
+    var extend = fns[fns.length-1];
+    avatarName = shortid() + '.' +extend;
     var stream = fs.createWriteStream(path.join(avatarPath, avatarName));
     part.pipe(stream);
-    this.response.status = 200;
-    this.response.body = {
-      "filename" : avatarName
-    }
+  }
+  var userInfo = {
+    avatar:avatarName
+  };
+  try{
+    yield esUser.saveUserInfoById(userId,userInfo);
+  }catch (err){
+    ctx.throw(400,err)
+  }
+  ctx.body = {
+    "filename" : avatarName
   }
 };
 
@@ -74,6 +90,37 @@ const _logout = function* (){
   this.redirect('/');
 };
 
+const _getUserInfo = function*(){
+  const ctx = this;
+  if(!ctx.isAuthenticated()){
+    ctx.throw(400,'not login');
+  }
+  var userId = ctx.session.passport.user;
+  try {
+    var userInfo = yield esUser.getInfoByUserId(userId);
+  }catch (err){
+    ctx.throw(400,err);
+  }
+
+  ctx.body = userInfo._source;
+
+};
+
+const _saveUserInfo = function*(){
+  const ctx = this;
+  if(!(_.has(ctx.session,'passport')) || _.isEmpty(ctx.session.passport)){
+    ctx.throw(400,'not login');
+  }
+  var userId = ctx.session.passport.user;
+  var _userInfo = ctx.request.body;
+  try {
+    yield esUser.saveUserInfoById(userId,_userInfo);
+  }catch (err){
+    ctx.throw(400,err);
+  }
+  ctx.status = 200;
+};
+
 module.exports = {
   renderUserCenterPage  :  _renderUserCenterPage,
   uploadAvatar          :  _uploadAvatar,
@@ -81,5 +128,7 @@ module.exports = {
   renderRegisterPage    :  _renderRegisterPage,
   register              :  _register,
   userLogin             :  _userLogin,
-  logout                :  _logout
+  logout                :  _logout,
+  getUserInfo           :  _getUserInfo,
+  saveUserInfo          :  _saveUserInfo
 };

@@ -1,29 +1,51 @@
-PYApp.controller 'userCenterCtl', ['$scope','$http',($scope,$http) ->
+PYApp.service 'userCenterService',['$http',($http)->
+
+  _getUserInfo = ()->
+    $http.post('/user/info.json',{})
+
+  _saveUserInfo = (_userInfo)->
+    $http.post('/save/user/info.json',_userInfo)
+
+  _uploadAvatar = (fd)->
+    $http.post('/user/upload/avatar',fd,{
+      withCredentials: true,
+      headers: {'Content-Type': undefined },
+      transformRequest: angular.identity}
+    )
+
+  return {
+    getUserInfo   :   _getUserInfo
+    saveUserInfo  :   _saveUserInfo
+    uploadAvatar  :   _uploadAvatar
+  }
+]
+
+PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToast',($scope,$http,userCenterService,$mdToast) ->
 
 
   ## base info
   $scope.showHints = true;
 
-  $scope.info = {
-    nickname:'mario'
-    phone:11577669988
-    email:'mario.ma@trantect.com'
-    address:'黄埔大厦'
-    avatar:'defaultAvatar.png'
-  }
+  $scope.initUserCenter = ()->
+
+    userCenterService.getUserInfo()
+    .then (data) ->
+      $scope.userInfo = data.data
+
+  $scope.saveUserInfo = ()->
+    userCenterService.saveUserInfo($scope.userInfo)
+    .then ()->
+      $mdToast.showSimple('保存用户信息成功..')
+    .catch ()->
+      $mdToast.showSimple('保存用户信息失败..')
 
   $scope.uploadFile = (files) ->
 
     fd = new FormData()
     fd.append("file",files[0])
-
-
-    $http.post('/user/upload/avatar',fd,{
-      withCredentials: true,
-      headers: {'Content-Type': undefined },
-      transformRequest: angular.identity}
-    ).then (data)->
-      $scope.info.avatar = data.data.filename
+    userCenterService.uploadAvatar(fd)
+    .then (data)->
+      $scope.userInfo.avatar = data.data.filename
 
 
   ## my post list
