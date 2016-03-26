@@ -37,6 +37,10 @@ const _uploadImgs = function *(){
 const _postPY = function *(){
   const ctx = this;
   const postInfo = ctx.request.body;
+  if(!ctx.isAuthenticated()){
+    ctx.throw(401,'not login');
+  }
+  const user = ctx.session.passport.user;
   if(postInfo.title.length > 30){
     ctx.throw(401);
   }
@@ -46,11 +50,8 @@ const _postPY = function *(){
   if(postInfo.desc.length > 400){
     ctx.throw(401);
   }
-  if(!(_.has(ctx.session,'passport')) || ctx.session.passport == {}){
-    ctx.throw(401);
-  }
   const pyInfo = {
-    create_user_id:ctx.session.passport.user,
+    create_user_id:user.id,
     title:postInfo.title,
     deadline:parseInt(moment(postInfo.deadline).format('x')),
     create_time:moment().valueOf(),

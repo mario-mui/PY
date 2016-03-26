@@ -13,10 +13,38 @@ PYApp.service 'userCenterService',['$http',($http)->
       transformRequest: angular.identity}
     )
 
+  _getAllAttr = ()->
+    $http.get('/py/attr.json')
+
+  _getMyPYList = (info)->
+    $http.post('/get/my/py/list.json',info)
+
+  _getTotalMyPYList = ()->
+    $http.get('/total/py/list.json')
+
+  _applyYes = (pyId,applyId)->
+    applyInfo = {
+      pyId:pyId
+      applyId:applyId
+    }
+    $http.post('/apply/action/yes.json',applyInfo)
+
+  _applyNo = (pyId,applyId)->
+    applyInfo = {
+      pyId:pyId
+      applyId:applyId
+    }
+    $http.post('/apply/action/no.json',applyInfo)
+
   return {
     getUserInfo   :   _getUserInfo
     saveUserInfo  :   _saveUserInfo
     uploadAvatar  :   _uploadAvatar
+    getMyPYList   :   _getMyPYList
+    getAllAttr    :   _getAllAttr
+    getTotalMyPYList  : _getTotalMyPYList
+    applyYes      :   _applyYes
+    applyNo       :   _applyNo
   }
 ]
 
@@ -47,10 +75,36 @@ PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToas
     .then (data)->
       $scope.userInfo.avatar = data.data.filename
 
+  $scope.initMyPY = ()->
+    $scope.currentMyPYPage = 1
+    userCenterService.getAllAttr()
+    .then (data)->
+      $scope.attrMap = data.data
 
-  ## my post list
-  $scope.totalList = 44
-  $scope.currentPage = 2
+    userCenterService.getTotalMyPYList()
+    .then (data)->
+      $scope.totalList = data.data
+
+    userCenterService.getMyPYList({})
+    .then (data)->
+      console.log 'data',data.data
+      $scope.applyList = data.data
+
+  $scope.applyYes = (applyId)->
+    console.log 'apply',applyId
+
+  $scope.applyNo = (applyId)->
+
+    console.log 'no',applyId
+
+  $scope.completePY = (pyId)->
+    console.log '##',pyId
+
+  $scope.editPY = (pyId)->
+
+  $scope.deletePY = (pyId)->
+
+
   $scope.postList = [
     {
       title:'阿迪达斯拼邮1'

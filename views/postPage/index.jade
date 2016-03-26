@@ -69,7 +69,7 @@ block body
           label 商品详细描述
           textarea.md-textarea(ng-model='postPY.desc', md-maxlength='400', rows='8')
 
-        lf-ng-md-file-input(lf-files='postPY.imgs', lf-placeholder='上传商品图片',lf-browse-label="点击上传图片" , lf-remove-label='删除所有', multiple, preview accept="image/*")
+        lf-ng-md-file-input(lf-files='postPY.imgs', lf-placeholder='上传商品图片',lf-browse-label="点击上传图片" ,lf-cpation="你选择的文件", lf-remove-label='删除所有', multiple, preview accept="image/*")
 
         .postSubmit(layout='row')
           md-button.md-raised.md-primary(ng-click='post()' ng-disabled='!postPYForm.$dirty || !postPYForm.$valid') 发布拼邮

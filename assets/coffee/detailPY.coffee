@@ -53,7 +53,6 @@ PYApp.controller 'detailCtl',['$scope','detailService','$mdToast','$mdDialog',($
         applyAttr: attrSelectList
         applyNum:$scope.applyNum
 
-      console.log '@@@@',applyInfo
       detailService.applyPY(applyInfo)
       .then (data)->
         $mdToast.showSimple("申请拼邮成功,耐心等待确认哦...")

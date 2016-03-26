@@ -114,6 +114,10 @@ module.exports = {
           type: 'string',
           index: 'not_analyzed'
         },
+        apply_user_name:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
         apply_attr:{
           type:'nested' //[{attr_key:'11',attr_value:'22'}]
         },

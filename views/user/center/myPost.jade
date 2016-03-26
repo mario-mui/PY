@@ -1,25 +1,29 @@
 md-list
-  .myPostList(layout='row' ng-repeat="post in postList")
+  .myPostList(layout='row' ng-repeat="myPY in applyList")
     .myPostContent(flex='90')
       .myPostTitle
-        a(ng-href='http://{{post.link}}' ng-bind="post.title")
+        a(ng-href='/py/detail/{{myPY.id}}' ng-bind="myPY.title" target="_black")
       md-list-item.post-list
-        md-card.applyPeople(ng-repeat="person in post.applyPeople" ng-class="{'done':person.status=='ok'}")
+        md-card.applyPeople(ng-repeat="apply in myPY.applyList" ng-class="{'done':apply.applyState}")
           md-card-content.post-card-content(layout="column")
             .attr(layout='row')
               label(flex='30') 申请人
               span(flex='10') :
-              span  {{person.username}}
-            .attr(layout='row' ng-repeat="attr in person.attr")
-              label(flex='30') {{attr.key}}
+              span(ng-bind="apply.applyUserName")
+            .attr(layout='row' ng-repeat="attr in apply.applyAttr")
+              label(flex='30' ng-bind="attrMap[attr.attr_key]")
               span(flex='10') :
-              span  {{attr.value}}
+              span(ng-bind="attr.attr_value")
+            .attr(layout='row')
+              label(flex='30') 数量
+              span(flex='10') :
+              span(ng-bind="apply.applyCount")
 
-          md-card-actions(layout='row', layout-align='end center' ng-hide="person.status=='ok'")
+          md-card-actions(layout='row', layout-align='end center' ng-hide="apply.applyState")
             md-button.md-fab.md-mini.md-primary
-              md-icon(md-svg-icon='/imgs/icons/ic_y.svg')
+              md-icon(md-svg-icon='/imgs/icons/ic_y.svg' ng-click="applyYes(myPY.id,apply.applyId)")
             md-button.md-fab.md-mini.md-warn.md-hue-2
-              md-icon(md-svg-icon='/imgs/icons/ic_n.svg')
+              md-icon(md-svg-icon='/imgs/icons/ic_n.svg' ng-click="applyNo(myPY.id,apply.applyId)")
 
     .myPostAction(flex='10' layout='column')
       md-fab-speed-dial.md-scale(md-direction='up')
@@ -28,10 +32,10 @@ md-list
             md-icon(md-svg-icon='/imgs/icons/ic_menu.svg')
         md-fab-actions.myPost-fab-action
           md-button.md-fab.md-mini.md-default
-            md-icon(md-svg-icon='/imgs/icons/ic_edit.svg')
+            md-icon(md-svg-icon='/imgs/icons/ic_edit.svg' ng-click="editPY(myPY.id)")
           md-button.md-fab.md-mini.md-warn.md-hue-2
-            md-icon(md-svg-icon='/imgs/icons/ic_delete.svg')
+            md-icon(md-svg-icon='/imgs/icons/ic_delete.svg' ng-click="deletePY(myPY.id)")
           md-button.md-fab.md-mini.md-primary
-            md-icon(md-svg-icon='/imgs/icons/ic_y.svg')
+            md-icon(md-svg-icon='/imgs/icons/ic_y.svg' ng-click="completePY(myPY.id)")
 
   uib-pager(total-items="totalList" ng-model="currentPage" items-per-page='5' next-text='下一页' previous-text='上一页')

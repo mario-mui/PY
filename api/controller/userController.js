@@ -1,10 +1,10 @@
 const fs = require('fs');
-const _ = require('underscore');
 const path = require('path');
 const parse = require('co-busboy');
 const shortid = require('shortid');
 const Promise = require('bluebird');
 const esUser = require("../es/esUser");
+const esPY = require('../es/esPY');
 const passport = require("koa-passport");
 
 
@@ -26,7 +26,7 @@ const _uploadAvatar = function *(){
   var parts = parse(this);
   var part;
   var avatarPath = __dirname + '../../../user/avatar/';
-  var avatarName = {}
+  var avatarName = {};
   while (part = yield parts) {
     var fns = part.filename.split('.');
     var extend = fns[fns.length-1];
@@ -95,7 +95,7 @@ const _getUserInfo = function*(){
   if(!ctx.isAuthenticated()){
     ctx.throw(400,'not login');
   }
-  var userId = ctx.session.passport.user;
+  var userId = ctx.session.passport.user.id;
   try {
     var userInfo = yield esUser.getInfoByUserId(userId);
   }catch (err){
@@ -108,10 +108,10 @@ const _getUserInfo = function*(){
 
 const _saveUserInfo = function*(){
   const ctx = this;
-  if(!(_.has(ctx.session,'passport')) || _.isEmpty(ctx.session.passport)){
+  if(!ctx.isAuthenticated()){
     ctx.throw(400,'not login');
   }
-  var userId = ctx.session.passport.user;
+  var userId = ctx.session.passport.user.id;
   var _userInfo = ctx.request.body;
   try {
     yield esUser.saveUserInfoById(userId,_userInfo);

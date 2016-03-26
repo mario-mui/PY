@@ -2,11 +2,15 @@ var passport = require('koa-passport');
 var esUser = require("../api/es/esUser");
 
 passport.serializeUser(function(user, done) {
-  done(null, user.id);
+  var userInfo= {
+    id:user.id,
+    username:user.username
+  };
+  done(null, userInfo);
 });
 
-passport.deserializeUser(function(id, done) {
-  done(null, id)
+passport.deserializeUser(function(user, done) {
+  done(null,user)
 });
 
 var LocalStrategy = require('passport-local').Strategy;

@@ -25,15 +25,17 @@ const _renderDetailPage = function*(){
 
 const _applyPY = function *(){
   var  ctx = this;
-  if(!(_.has(ctx.session,'passport')) || _.isEmpty(ctx.session.passport)){
+  if(!ctx.isAuthenticated()){
     ctx.throw(400,'not login');
   }
-  if (ctx.session.passport.user == ctx.request.body.createPYUserId){
+  var user = ctx.session.passport.user;
+  if (user.id == ctx.request.body.createPYUserId){
     ctx.throw(400,'the same people');
   }
   var _PYInfo = {
     py_info_id:ctx.request.body.PYInfoId,
-    apply_user_id:ctx.session.passport.user,
+    apply_user_id:user.id,
+    apply_user_name:user.username,
     apply_attr:ctx.request.body.applyAttr,
     apply_count:ctx.request.body.applyNum,
     apply_state:false
