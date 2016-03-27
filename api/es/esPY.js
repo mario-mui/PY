@@ -43,6 +43,22 @@ const _getInfoById = function (_id){
   return promise;
 };
 
+const _getPyInfoByIds = function(ids){
+  var promise = esClient.search({
+    index:'py_tpl',
+    type:'py_info',
+    body:{
+      query: {
+        terms:{
+          _id:ids
+        }
+      }
+    },
+    _source:['title']
+  });
+  return promise;
+};
+
 const _getPYCreateUserIdByInfoId = function (_id){
   var promise = esClient.get({
     index: 'py_tpl',
@@ -68,11 +84,46 @@ const _getApplyListByPYIds = function(ids){
     type:'py_apply',
     body:{
       query: {
+        bool:{
+          must:[
+            {
+              terms:{
+                py_info_id:ids
+              }
+            },
+            {
+              terms:{
+                apply_state:['pass','waiting']
+              }
+            }
+          ]
+        }
+      }
+    }
+  });
+  return promise;
+};
+
+const _getAllApplyListByPYIds = function(ids){
+  var promise = esClient.search({
+    index:'py_tpl',
+    type:'py_apply',
+    body:{
+      query: {
         terms:{
           py_info_id:ids
         }
       }
     }
+  });
+  return promise;
+};
+
+const _getApplyInfoById = function(_id){
+  var promise = esClient.get({
+    index:'py_tpl',
+    type:'py_apply',
+    id:_id
   });
   return promise;
 };
@@ -90,6 +141,21 @@ const _getTotalMyCreatePYList = function(userId){
     }
   });
 
+  return promise;
+};
+
+const _getTotalMyApply = function(userId){
+  var promise = esClient.count({
+    index:'py_tpl',
+    type:'py_apply',
+    body:{
+      query: {
+        term:{
+          apply_user_id:userId
+        }
+      }
+    }
+  });
   return promise;
 };
 
@@ -111,16 +177,110 @@ const _getMyPYList = function (userId,from,size){
   return promise
 };
 
-const _applyActionYes = function(){
+const _applyActionYes = function(applyId){
+  var promise = esClient.update({
+    index:'py_tpl',
+    type:'py_apply',
+    id:applyId,
+    body: {
+      doc:{
+        apply_state:'pass'
+      }
+    }
+  });
+  return promise
+};
 
+const _applyActionNo = function(applyId){
+  var promise = esClient.update({
+    index:'py_tpl',
+    type:'py_apply',
+    id:applyId,
+    body: {
+      doc:{
+        apply_state:'reject'
+      }
+    }
+  });
+  return promise
+};
+
+//update apply_state to py_delete
+const _deleteApplyByIds = function (deleteBody) {
+  var promise = esClient.bulk({
+    body:deleteBody
+  });
+  return promise
+};
+
+const _completePY = function(pyId){
+  var promise = esClient.update({
+    index:'py_tpl',
+    type:'py_info',
+    id:pyId,
+    body: {
+      doc:{
+        py_state:'complete'
+      }
+    }
+  });
+  return promise
+};
+
+const _deletePY = function (pyId){
+  var promise = esClient.delete({
+    index:'py_tpl',
+    type:'py_info',
+    id:pyId
+  });
+  return promise
+};
+
+// py_apply action
+
+const _getMyApplyList = function(userId,from,size){
+  var promise = esClient.search({
+    index:'py_tpl',
+    type:'py_apply',
+    body: {
+      query: {
+        term:{
+          apply_user_id:userId
+        }
+      }
+    },
+    from:from,
+    size:size
+  });
+  return promise
+};
+
+const _deleteMyApply = function (applyId){
+  var promise = esClient.delete({
+    index:'py_tpl',
+    type:'py_apply',
+    id:applyId
+  });
+  return promise
 };
 
 module.exports = {
-  getMyPYList          :   _getMyPYList,
+  getMyPYList           :   _getMyPYList,
   getPYByOffset         :   _getPYByOffset,
   getInfoById           :   _getInfoById,
   applyPY               :   _applyPY,
   getApplyListByPYIds   :   _getApplyListByPYIds,
+  getAllApplyListByPYIds:   _getAllApplyListByPYIds,
   getTotalMyCreatePYList:   _getTotalMyCreatePYList,
-  getUserId             :   _getPYCreateUserIdByInfoId
+  getUserId             :   _getPYCreateUserIdByInfoId,
+  applyActionYes        :   _applyActionYes,
+  applyActionNo         :   _applyActionNo,
+  deleteApplyByIds      :   _deleteApplyByIds,
+  completePY            :   _completePY,
+  deletePY              :   _deletePY,
+  getMyApplyList        :   _getMyApplyList,
+  getPyInfoByIds        :   _getPyInfoByIds,
+  getTotalMyApply       :   _getTotalMyApply,
+  deleteMyApply         :   _deleteMyApply,
+  getApplyInfoById      :   _getApplyInfoById
 };

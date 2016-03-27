@@ -64,7 +64,7 @@ const _postPY = function *(){
     good_desc:postInfo.desc,
     good_attr:postInfo.attr,
     good_imgs:postInfo.imgs,
-    py_state:false
+    py_state:'open'
   };
   try{
     yield esPost.postPYInfo(pyInfo);

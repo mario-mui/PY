@@ -38,7 +38,7 @@ const _applyPY = function *(){
     apply_user_name:user.username,
     apply_attr:ctx.request.body.applyAttr,
     apply_count:ctx.request.body.applyNum,
-    apply_state:false
+    apply_state:'waiting'//新建初始状态
   };
   try {
     yield esPY.applyPY(_PYInfo);

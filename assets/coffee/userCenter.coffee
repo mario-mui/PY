@@ -17,10 +17,13 @@ PYApp.service 'userCenterService',['$http',($http)->
     $http.get('/py/attr.json')
 
   _getMyPYList = (info)->
-    $http.post('/get/my/py/list.json',info)
+    $http.post('/get/my/py/list.json',{page:info})
 
   _getTotalMyPYList = ()->
     $http.get('/total/py/list.json')
+
+  _getTotalMyApply = ()->
+    $http.get('/total/my/apply/list.json')
 
   _applyYes = (pyId,applyId)->
     applyInfo = {
@@ -36,6 +39,18 @@ PYApp.service 'userCenterService',['$http',($http)->
     }
     $http.post('/apply/action/no.json',applyInfo)
 
+  _completePy = (pyId)->
+    $http.post('/py/action/complete.json',{pyId:pyId});
+
+  _deletePy = (pyId)->
+    $http.post('/py/action/delete.json',{pyId:pyId});
+
+  _getMyApplyList = (page)->
+    $http.post('/get/my/apply/list.json',{page:page})
+
+  _cancelMyApply = (applyId)->
+    $http.post('/cancel/my/apply.json',{applyId:applyId})
+
   return {
     getUserInfo   :   _getUserInfo
     saveUserInfo  :   _saveUserInfo
@@ -45,6 +60,11 @@ PYApp.service 'userCenterService',['$http',($http)->
     getTotalMyPYList  : _getTotalMyPYList
     applyYes      :   _applyYes
     applyNo       :   _applyNo
+    completePy    :   _completePy
+    deletePy      :   _deletePy
+    getMyApplyList:   _getMyApplyList
+    cancelMyApply :   _cancelMyApply
+    getTotalMyApply:  _getTotalMyApply
   }
 ]
 
@@ -53,6 +73,10 @@ PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToas
 
   ## base info
   $scope.showHints = true;
+
+  userCenterService.getAllAttr()
+  .then (data)->
+    $scope.attrMap = data.data
 
   $scope.initUserCenter = ()->
 
@@ -75,340 +99,87 @@ PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToas
     .then (data)->
       $scope.userInfo.avatar = data.data.filename
 
+  ###
+    ## my py list
+  ###
+
   $scope.initMyPY = ()->
     $scope.currentMyPYPage = 1
-    userCenterService.getAllAttr()
-    .then (data)->
-      $scope.attrMap = data.data
-
     userCenterService.getTotalMyPYList()
     .then (data)->
-      $scope.totalList = data.data
+      $scope.myPyTotalList = data.data
 
-    userCenterService.getMyPYList({})
-    .then (data)->
-      console.log 'data',data.data
-      $scope.applyList = data.data
+    $scope.$watch('currentMyPYPage',()->
+      userCenterService.getMyPYList($scope.currentMyPYPage)
+      .then (data)->
+        $scope.myPYList = data.data
+    )
 
-  $scope.applyYes = (applyId)->
-    console.log 'apply',applyId
 
-  $scope.applyNo = (applyId)->
+  $scope.applyYes = (pyId,applyId,applyName)->
+    userCenterService.applyYes(pyId,applyId)
+    .then ()->
+      pyIndex = _.findIndex $scope.myPYList,{id:pyId}
+      applyIndex = _.findIndex $scope.myPYList[pyIndex].applyList,{applyId:applyId}
+      $scope.myPYList[pyIndex].applyList[applyIndex].applyState = 'pass'
+      $mdToast.showSimple("通过了#{applyName}的申请..")
+    ,()->
+      $mdToast.showSimple("操作失败..")
+    .catch ()->
+      $mdToast.showSimple("操作失败..")
 
-    console.log 'no',applyId
+  $scope.applyNo = (pyId,applyId,applyName)->
 
-  $scope.completePY = (pyId)->
-    console.log '##',pyId
+    userCenterService.applyNo(pyId,applyId)
+    .then ()->
+      pyIndex = _.findIndex $scope.myPYList,{id:pyId}
+      applyIndex = _.findIndex $scope.myPYList[pyIndex].applyList,{applyId:applyId}
+      $scope.myPYList[pyIndex].applyList.splice(applyIndex,1)
+      $mdToast.showSimple("拒绝了#{applyName}的申请..")
 
+  $scope.completePY = (pyId,pyTitle)->
+    userCenterService.completePy(pyId)
+    .then ()->
+      $mdToast.showSimple("完成了拼邮#{pyTitle}..")
+    .catch ()->
+      $mdToast.showSimple("操作失败..")
+
+  ##TODO edit py
   $scope.editPY = (pyId)->
 
-  $scope.deletePY = (pyId)->
+  $scope.deletePY = (pyId,pyTitle)->
+    userCenterService.deletePy(pyId)
+    .then ()->
+      $mdToast.showSimple("删除了拼邮#{pyTitle}..")
+    .catch ()->
+      $mdToast.showSimple("操作失败..")
 
 
-  $scope.postList = [
-    {
-      title:'阿迪达斯拼邮1'
-      link:'www.baidu.com'
-      status:'open'
-      applyPeople:[
-        {
-          uid:'11'
-          username:'mario1'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'31'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'12'
-          username:'mario2'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'32'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'34'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'35'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-      ]
-    }
+  ###
+    ## my apply list
+  ###
 
-    {
-      title:'阿迪达斯拼邮2'
-      link:'www.baidu.com'
-      status:'open'
-      applyPeople:[
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-      ]
-    }
+  $scope.initMyApplyList = ()->
+    $scope.currentMyApplyPage = 1
 
-    {
-      title:'阿迪达斯拼邮3'
-      link:'www.baidu.com'
-      status:'open'
-      applyPeople:[
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'ok'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-        {
-          uid:'11'
-          username:'mario'
-          attr:[
-            {
-              key:'颜色'
-              value:'红色'
-            }
-            {
-              key:'大小'
-              value:'33'
-            }
-          ]
-          status:'wait'
-        }
-      ]
-    }
-  ]
-  $scope.applyList = [
-    {
-      postId:'11'
-      title:'apply1'
-      owner:'mario'
-      status:'pass' #pass,applying,reject
-    }
-  ]
+    userCenterService.getTotalMyApply()
+    .then (data)->
+      $scope.myApplyTotal = data.data
 
+    $scope.$watch('currentMyApplyPage',()->
+      userCenterService.getMyApplyList($scope.currentMyApplyPage)
+      .then (data)->
+        $scope.applyList = data.data
+    )
 
-  ## my apply list
+  $scope.deleteMyApply = (applyId,pyTitle)->
+    userCenterService.cancelMyApply(applyId)
+    .then ()->
+      $mdToast.showSimple("取消了#{pyTitle}拼邮的申请..")
+      userCenterService.getMyApplyList()
+    .then (data)->
+      $scope.applyList = data.data
+    .catch ()->
+      $mdToast.showSimple("操作失败..")
+
 ]

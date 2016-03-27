@@ -100,7 +100,8 @@ module.exports = {
           type:"string"
         },
         py_state:{
-          type:"boolean"
+          type:'string',
+          index: 'not_analyzed'
         }
       }
     },
@@ -125,7 +126,8 @@ module.exports = {
           type:'short'
         },
         apply_state:{
-          type:'boolean'
+          type:'string',//pass,reject,py_delete,waiting
+          index: 'not_analyzed'
         }
       }
     }

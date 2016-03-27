@@ -9,12 +9,12 @@ const passport = require("koa-passport");
 
 
 const _renderUserCenterPage = function *(){
-  //if(this.isAuthenticated()){
+  if(this.isAuthenticated()){
     this.render('user/center/index')
-//}else{
-//    this.session['returnTo'] = '/user/center';
-//    this.redirect('/login');
-//  }
+}else{
+    this.session['returnTo'] = '/user/center';
+    this.redirect('/login');
+  }
 };
 
 const _uploadAvatar = function *(){

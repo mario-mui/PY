@@ -51,3 +51,6 @@ input[type='file'] {
 .attrSplit {
   margin: 0px 10px;
 }
+.attr-inline{
+  margin-right: 10px;
+}

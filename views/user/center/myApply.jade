@@ -2,21 +2,28 @@ md-list
   .myPostList(layout='row' ng-repeat="apply in applyList")
     .myPostContent(flex='90')
       .myPostTitle
-        a(ng-href='http://{{apply.postId}}' ng-bind="apply.title")
+        a(ng-href='/py/detail/{{apply.pyId}}' ng-bind="apply.pyTitle" target='_black')
 
       md-list-item.post-list(layout='row')
         .attr(flex='50' layout='row')
-          label 发起人
+          label 申请数目
           span.attrSplit :
-          span  {{apply.owner}}
+          span(ng-bind='apply.applyCount')
 
         .attr(flex='50' layout='row')
           label 申请状态
           span.attrSplit :
-          span  {{apply.status}}
+          span(ng-bind="apply.applyState")
+
+      md-list-item.post-list(layout='row')
+        .attr.attr-inline(layout='row' ng-repeat="attr in apply.applyAttr")
+          label(ng-bind="attrMap[attr.attr_key]")
+          span.attrSplit :
+          span(ng-bind="attr.attr_value")
+
     .myPostAction(flex='10' layout='column')
       md-button.md-fab.md-mini.md-warn.md-hue-2
-        md-icon(md-svg-icon='/imgs/icons/ic_delete.svg')
+        md-icon(md-svg-icon='/imgs/icons/ic_delete.svg' ng-click="deleteMyApply(apply.id,apply.pyTitle)")
 
 
-  uib-pager(total-items="totalList" ng-model="currentPage" items-per-page='5' next-text='下一页' previous-text='上一页')
+  uib-pager(total-items="myApplyTotal" ng-model="currentMyApplyPage" items-per-page='5' next-text='下一页' previous-text='上一页')
