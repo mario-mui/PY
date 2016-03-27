@@ -1,0 +1,56 @@
+/*
+** center page
+
+*/
+
+.md-card-avatar {
+  width: 120px;
+  height: 200px;
+  display: block;
+  margin: 0 auto !important;
+}
+
+input[type='file'] {
+  opacity: 0;
+  position: absolute;
+  left: 0;
+  height: 100%;
+}
+
+.myPostList {
+  background: rgb(245,245,245);
+  margin-bottom: 20px;
+}
+
+.myPostTitle {
+  padding: 16px;
+  font-size: 14px;
+}
+
+.attr {
+  border-bottom: 1px dotted #ccc;
+  padding: 0px 3px;
+}
+
+.applyPeople {
+  width: 30%;
+}
+
+.applyPeople.done {
+  background: #DFF2BF;
+}
+.post-list {
+  overflow-y: scroll;
+}
+.myPost-fab-action{
+  margin-top: 25px;
+}
+.post-card-content{
+  min-width: 180px;
+}
+.attrSplit {
+  margin: 0px 10px;
+}
+.attr-inline{
+  margin-right: 10px;
+}

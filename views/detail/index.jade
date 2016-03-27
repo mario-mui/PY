@@ -1,0 +1,102 @@
+extends ../layout/app_layout
+block styles
+  link(href='/styles/detail.css', rel='stylesheet')
+block body
+  .container.main-container(ng-controller="detailCtl")
+    .row
+      .col-md-6(layout="column")
+        .detail-attr(layout="row")
+          span.key(flex='40') 价格 :
+          span.value(flex='60' ng-bind="detail.price")
+        .detail-attr(layout="row")
+          span.key(flex='40') 大约到达时间 :
+          span.value(flex='60' ng-bind="detail.arrive_date+'天'")
+        .detail-attr(layout="row")
+          span.key(flex='40') 商品链接 :
+          .value(flex='60')
+            a(ng-href='detail.good_link') 链接(点我)
+        info-attr.detail-attr(ng-repeat="attr in detail.good_attr" layout='row' value='attr',check-value='attr.checkValue' ,attr-map='attrMap')
+        .detail-attr(layout="row")
+          span.key(flex='40') 数量 :
+          .value
+            input.form-control(type='number' ng-model='applyNum')
+        .detail-attr(layout="row")
+          span.key(flex='40') 状态 :
+          span.value(flex='60') 3 / 10
+
+      .posterInfo.col-md-4(layout="column")
+        .detail-attr(layout="row")
+          span.key(flex='40') 发布人 :
+          .value(flex='60')
+            a(href='') {{detail.username}}
+        .detail-attr(layout="row")
+          span.key(flex='40') 信誉度 :
+          .value(flex='60')
+            uib-rating(ng-model='rate' read-only='true')
+        .detail-attr(layout="row")
+          span.key(flex='40') 联系方式 :
+          span.value(flex='60' ng-bind="detail.email")
+    .row.detail-footer
+      .col-md-4.col-md-offset-2.col-xs-4.col-xs-offset-2
+        button.btn.btn-primary(ng-click="applyPY()" ng-disabled='applyNum==0') 申请拼邮
+
+    .row.detail-footer
+      .col-md-10.col-md-offset-1
+        uib-tabset
+          uib-tab(index='0', heading='商品详情')
+            .detail-area
+              .detail-area-title
+                .row
+                  .col-sm-6
+                    span 商品品牌: {{detail.good_brand}}
+                  .col-sm-6
+                    span 商品来源: {{detail.good_from}}
+              .detail-area-desc
+                P
+                  | {{detail.good_desc}}
+
+              .detail-area-img
+                img(ng-repeat="img in detail.good_imgs" ng-src='/userImg/{{img}}')
+
+          uib-tab(index='1', heading='评论')
+            .comment-area
+              ol.comment-list.clearfix
+                li
+                  .media
+                    .media-left
+                      img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
+                    .media-body
+                      .comment-content
+                        p
+                          | That support is great, but I ran into trouble wanting to alter/change the default order. Is it possible to put the textarea first. Been searching around and didn’t find any answers. Thanks
+                      .comment-footer.row
+                        .rate.col-sm-6
+                          uib-rating(ng-model='rate' read-only='true')
+                        .date.col-sm-6
+                          | 2016-03-10
+                li
+                  .media
+                    .media-left
+                      img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
+                    .media-body
+                      .comment-content
+                        p
+                          | This is the code I was looking all day. You save me. The new wordpress theme i’m doing with bootstrap 3 needs this code to make comments part compatible with bootstrap
+                      .comment-footer.row
+                        .rate.col-sm-6
+                          uib-rating(ng-model='rate' read-only='true')
+                        .date.col-sm-6
+                          | 2016-03-10
+              .comment-respond
+                h3 评论一下
+                form.comment-form(name="commentForm")
+                  .form-group
+                    uib-rating(name='commentRate' ng-model='rate', on-hover='commentRateHover(value);overStar = true', on-leave="overStar = null")
+                    span.label.label-success(ng-show='overStar' ng-bind="rateInfo")
+                    p
+                    textarea.form-control(name='commentText', ng-model='comment.commentText' cols='45', rows='8', required)
+                  button.btn.btn-primary(type='submit',ng-disabled="!(rate && commentForm.$valid)") 发布评论
+block js
+  script(src="/angular-bootstrap/ui-bootstrap.min.js")
+  script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
+  script(src="/js/detailPY.js")

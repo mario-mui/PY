@@ -1,0 +1,11 @@
+.postTitle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.arrivalDate {
+  margin: 18px 0px;
+}
+md-toast {
+  position: fixed !important;
+}

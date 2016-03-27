@@ -1,0 +1,24 @@
+extends ../../layout/app_layout
+block styles
+  link(href='/styles/user.css', rel='stylesheet')
+block body
+  .container.main-container(ng-controller='userCenterCtl' ng-init="initUserCenter()" ng-cloak)
+    .row
+      .col-md-8.col-md-offset-2.postTitle
+        md-content
+          md-tabs(md-dynamic-height='', md-border-bottom='')
+            md-tab(label='宝宝信息')
+              md-content.md-padding
+                include info
+            md-tab(label='发布的拼邮',ng-click="initMyPY()")
+              md-content.md-padding
+                include myPost
+            md-tab(label='申请的拼邮',ng-click="initMyApplyList()")
+              md-content.md-padding
+                include myApply
+
+
+block js
+  script(src="/angular-bootstrap/ui-bootstrap.min.js")
+  script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
+  script(src="/js/userCenter.js")

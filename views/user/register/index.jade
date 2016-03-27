@@ -1,0 +1,31 @@
+extends ../../layout/X_layout
+block styles
+  link(href='/styles/login_register.css', rel='stylesheet')
+block body
+  .loginBody(ng-app='XApp' ng-controller='loginCtl' ng-cloak layout="column" layout-align="center center")
+    .logo(layout="row" layout-align="center center")
+      img(src="/imgs/py.svg")
+    form.loginForm(name='registerForm' layout="row")
+      .login-content(layout="column")
+        md-input-container.md-block
+          label 用户名:
+          input(ng-model='user.username',name='username' ,required md-maxlength='15' minlength='5' ng-pattern="/^[A-Za-z0-9_-]*$/")
+          .hint(ng-class="{'error':(registerForm.username.$dirty && registerForm.username.$invalid )}") 用户名只可以是字母,数字和下划线组合,长度5-15位.
+        md-input-container.md-block
+          label 邮箱:
+          input(ng-model='user.email', type='email', name='email' required)
+          .hint(ng-class="{'error':(registerForm.email.$dirty && registerForm.email.$invalid )}") 填写常用邮箱哦,忘记密码会使用到的哦!
+        md-input-container.md-block
+          label 密码:
+          input(ng-model='user.password', type='password', name='password' required md-maxlength='15' minlength='5' ng-pattern="/^[A-Za-z0-9_-]*$/")
+          .hint(ng-class="{'error':(registerForm.password.$dirty && registerForm.password.$invalid )}") 密码只可以是字母,数字和下划线组合,5-15位.
+        md-input-container.md-block
+          label 确认密码:
+          input(type='password',ng-model='user.password_c' name='password_c' compare-to='user.password' required)
+          .hint(ng-class="{'error':(registerForm.password_c.$dirty && registerForm.password_c.$invalid )}") 要和密码填的一模一样哦
+
+        md-button.md-raised.md-primary(ng-disabled="!(registerForm.$dirty && registerForm.$valid)" ng-click="register()") 立即注册
+
+
+block js
+  script(src="/js/login_register.js")

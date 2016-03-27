@@ -1,0 +1,34 @@
+extends ../layout/app_layout
+block styles
+  link(href='/styles/homePage.css', rel='stylesheet')
+block body
+  div(ng-controller='homeCtl')
+    //.container.main-container(infinite-scroll='reddit.nextPage()', infinite-scroll-disabled='reddit.busy', infinite-scroll-distance='2')
+    .container.main-container
+      .row(ng-repeat='info in PYinfo')
+        .col-md-8.col-md-offset-2
+          .card.text-xs-center
+            .card-header
+              a(ng-href='/py/detail/{{info.id}}' ng-bind='info.title' target="_blank")
+            .card-block
+              .card-block-img
+                .card-img(ng-repeat='img in info.imgs')
+                  img(ng-src='{{img}}')
+              .card-block-desc
+                p.card-text(ng-bind='info.desc')
+              .card-block-tag
+                a(href="#" ng-repeat='flag in info.flags' ng-bind='flag')
+            .card-footer.row
+              .card-footer-date.col-md-6
+                span(ng-bind="info.createTime | date:'yyyy-MM-dd'")
+              .card-footer-control.col-md-6
+                a(href="#")
+                  span.glyphicon.glyphicon-thumbs-down
+                a(href="#")
+                  span.glyphicon.glyphicon-plus
+      div(ng-show='reddit.busy') Loading data...
+
+block js
+  script(src="/angular-bootstrap/ui-bootstrap.min.js")
+  script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
+  script(src="/js/homePage.js")
