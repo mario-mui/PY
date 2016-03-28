@@ -23,7 +23,6 @@
     "angular-bootstrap": "^1.2.1",
     "bootstrap": "^3.3.6",
     "angular-material": "^1.0.6",
-    "underscore": "^1.8.3",
     "lf-ng-md-file-input": "^1.4.2",
     "ngInfiniteScroll": "^1.2.2",
     "lodash": "^4.6.1"
