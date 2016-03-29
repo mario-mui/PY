@@ -25,6 +25,7 @@
     "angular-material": "^1.0.6",
     "lf-ng-md-file-input": "^1.4.2",
     "ngInfiniteScroll": "^1.2.2",
-    "lodash": "^4.6.1"
+    "lodash": "^4.6.1",
+    "angular-md5": "^0.1.10"
   }
 }

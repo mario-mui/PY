@@ -264,6 +264,39 @@ const _deleteMyApply = function (applyId){
   return promise
 };
 
+const _getCountApplyByStatue = function(infoId,statue){
+  var promise = esClient.search({
+    index:'py_tpl',
+    type:'py_apply',
+    body: {
+      query: {
+        bool:{
+          must:[
+            {
+              term:{
+                py_info_id:infoId
+              }
+            },
+            {
+              term:{
+                apply_state:statue
+              }
+            }
+          ]
+        }
+      },
+      aggs : {
+        sum_apply:{
+          sum : {
+            field : "apply_count"
+          }
+        }
+      }
+    }
+  });
+  return promise
+};
+
 module.exports = {
   getMyPYList           :   _getMyPYList,
   getPYByOffset         :   _getPYByOffset,
@@ -282,5 +315,6 @@ module.exports = {
   getPyInfoByIds        :   _getPyInfoByIds,
   getTotalMyApply       :   _getTotalMyApply,
   deleteMyApply         :   _deleteMyApply,
-  getApplyInfoById      :   _getApplyInfoById
+  getApplyInfoById      :   _getApplyInfoById,
+  getCountApplyByStatue :   _getCountApplyByStatue
 };

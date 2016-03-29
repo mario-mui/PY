@@ -7,7 +7,9 @@ const _getPYDetailById = function*(){
   try {
     var pyInfo = yield esPY.getInfoById(ctx.request.body.id);
     var userInfo = yield esUser.getInfoByUserId(pyInfo._source.create_user_id);
+    var applyYesInfo = yield esPY.getCountApplyByStatue(pyInfo._id,'pass');
     var resInfo = _.extend(pyInfo._source,userInfo._source);
+    resInfo = _.extend(resInfo,{applyYesNum:applyYesInfo.aggregations.sum_apply.value})
   } catch(err){
     ctx.throw(401);
   }

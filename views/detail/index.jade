@@ -22,7 +22,7 @@ block body
             input.form-control(type='number' ng-model='applyNum')
         .detail-attr(layout="row")
           span.key(flex='40') 状态 :
-          span.value(flex='60') 3 / 10
+          span.value(flex='60' ng-bind="detail.applyYesNum+' / '+detail.count")
 
       .posterInfo.col-md-4(layout="column")
         .detail-attr(layout="row")
@@ -38,7 +38,7 @@ block body
           span.value(flex='60' ng-bind="detail.email")
     .row.detail-footer
       .col-md-4.col-md-offset-2.col-xs-4.col-xs-offset-2
-        button.btn.btn-primary(ng-click="applyPY()" ng-disabled='applyNum==0') 申请拼邮
+        button.btn.btn-primary(ng-click="applyPY()" ng-disabled='applyNum==0 || (detail.applyYesNum+applyNum)>=detail.count') 申请拼邮
 
     .row.detail-footer
       .col-md-10.col-md-offset-1
