@@ -29,6 +29,7 @@ const _getMyPYList = function*(){
       return {
         id:_myPY._id,
         title:_myPY._source.title,
+        count:_myPY._source.count,
         applyList:applyListByPYId
       }
     });

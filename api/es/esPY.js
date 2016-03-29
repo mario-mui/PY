@@ -172,7 +172,7 @@ const _getMyPYList = function (userId,from,size){
     },
     from:from,
     size:size,
-    _source:['title']
+    _source:['title','count']
   });
   return promise
 };

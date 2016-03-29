@@ -12,6 +12,9 @@ PYApp.service "detailService",['$http',($http)->
   _login = (postData)->
     $http.post("/user/login",postData)
 
+  _getComment = (infoId)->
+    $http.post('/py/detail/comment.json',{infoId:infoId})
+
   return {
     applyPY           :   _applyPY
     getDetailById     :   _getDetailById

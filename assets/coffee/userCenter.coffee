@@ -116,17 +116,26 @@ PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToas
     )
 
 
-  $scope.applyYes = (pyId,applyId,applyName)->
-    userCenterService.applyYes(pyId,applyId)
-    .then ()->
-      pyIndex = _.findIndex $scope.myPYList,{id:pyId}
-      applyIndex = _.findIndex $scope.myPYList[pyIndex].applyList,{applyId:applyId}
-      $scope.myPYList[pyIndex].applyList[applyIndex].applyState = 'pass'
-      $mdToast.showSimple("通过了#{applyName}的申请..")
-    ,()->
-      $mdToast.showSimple("操作失败..")
-    .catch ()->
-      $mdToast.showSimple("操作失败..")
+  $scope.applyYes = (pyId,applyId,applyName,pyCount,applyCount)->
+    pyIndex = _.findIndex $scope.myPYList,{id:pyId}
+    applyPassCount = 0
+    _.map $scope.myPYList[pyIndex].applyList,(apply)->
+      if apply.applyState is 'pass'
+        applyPassCount = applyPassCount + apply.applyCount
+
+    if pyCount <= applyPassCount + applyCount
+      $mdToast.showSimple("超过了拼邮总数..")
+    else
+      userCenterService.applyYes(pyId,applyId)
+      .then ()->
+
+        applyIndex = _.findIndex $scope.myPYList[pyIndex].applyList,{applyId:applyId}
+        $scope.myPYList[pyIndex].applyList[applyIndex].applyState = 'pass'
+        $mdToast.showSimple("通过了#{applyName}的申请..")
+      ,()->
+        $mdToast.showSimple("操作失败..")
+      .catch ()->
+        $mdToast.showSimple("操作失败..")
 
   $scope.applyNo = (pyId,applyId,applyName)->
 
@@ -176,7 +185,12 @@ PYApp.controller 'userCenterCtl', ['$scope','$http','userCenterService','$mdToas
     userCenterService.cancelMyApply(applyId)
     .then ()->
       $mdToast.showSimple("取消了#{pyTitle}拼邮的申请..")
-      userCenterService.getMyApplyList()
+      if $scope.applyList.length is 1
+        $scope.currentMyApplyPage = $scope.currentMyApplyPage -1
+      userCenterService.getMyApplyList($scope.currentMyApplyPage)
+      .then (data)->
+        $scope.applyList = data.data
+      $scope.myApplyTotal = $scope.myApplyTotal-1
     .then (data)->
       $scope.applyList = data.data
     .catch ()->

@@ -130,6 +130,28 @@ module.exports = {
           index: 'not_analyzed'
         }
       }
+    },
+    py_comment:{
+      properties:{
+        py_info_id:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        user_id:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        content:{
+          type: 'string',
+          index: 'not_analyzed'
+        },
+        rate:{
+          type:'short'
+        },
+        time:{
+          type:'long'
+        }
+      }
     }
   }
 };
