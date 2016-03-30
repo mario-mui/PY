@@ -297,6 +297,30 @@ const _getCountApplyByStatue = function(infoId,statue){
   return promise
 };
 
+const _postComment = function (comment){
+  var promise = esClient.create({
+    index:'py_tpl',
+    type:'py_comment',
+    body: comment
+  });
+  return promise
+};
+
+const _getComment = function (infoId){
+  var promise = esClient.search({
+    index:'py_tpl',
+    type:'py_comment',
+    body:{
+      query: {
+        term:{
+          py_info_id:infoId
+        }
+      }
+    }
+  });
+  return promise
+};
+
 module.exports = {
   getMyPYList           :   _getMyPYList,
   getPYByOffset         :   _getPYByOffset,
@@ -316,5 +340,7 @@ module.exports = {
   getTotalMyApply       :   _getTotalMyApply,
   deleteMyApply         :   _deleteMyApply,
   getApplyInfoById      :   _getApplyInfoById,
-  getCountApplyByStatue :   _getCountApplyByStatue
+  getCountApplyByStatue :   _getCountApplyByStatue,
+  postComment           :   _postComment,
+  getComment            :   _getComment
 };

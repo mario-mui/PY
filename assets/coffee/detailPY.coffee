@@ -13,18 +13,25 @@ PYApp.service "detailService",['$http',($http)->
     $http.post("/user/login",postData)
 
   _getComment = (infoId)->
-    $http.post('/py/detail/comment.json',{infoId:infoId})
+    $http.post('/py/get/comment.json',{infoId:infoId})
+
+  _postComment = (comment)->
+    $http.post("/py/post/comment.json",comment)
 
   return {
     applyPY           :   _applyPY
     getDetailById     :   _getDetailById
     getAllAttr        :   _getAllAttr
     login             :   _login
+    getComment        :   _getComment
+    postComment       :   _postComment
   }
 ]
 
 PYApp.controller 'detailCtl',['$scope','detailService','$mdToast','$mdDialog',($scope,detailService,$mdToast,$mdDialog)->
-  $scope.rate = 0
+  $scope.comment =
+    rate:0
+    content:''
   $scope.applyNum = 0
   paths = window.document.location.pathname.split('/');
   id = paths[paths.length-1]
@@ -71,6 +78,32 @@ PYApp.controller 'detailCtl',['$scope','detailService','$mdToast','$mdDialog',($
     else
       $mdToast.showSimple("请勾选您要的商品信息！")
 
+  $scope.initComment = ()->
+    detailService.getComment(id)
+    .then (data)->
+      $scope.commentList = data.data
+
+  $scope.submitComment = ()->
+    commentInfo =
+      PYInfoId:id
+      createPYUserId:$scope.detail.create_user_id
+      rate:$scope.comment.rate
+      content:$scope.comment.content
+
+    detailService.postComment(commentInfo)
+    .then ()->
+      $scope.comment.rate = 0
+      $scope.comment.content=''
+      $mdToast.showSimple("发布评论成功...")
+    ,(err)->
+      console.log 'err',err
+      if err.data is 'not login'
+        $mdDialog.show(
+          templateUrl:'/dialog/login.html'
+          clickOutsideToClose:true
+        )
+      if err.data is 'the same people'
+        $mdToast.showSimple("不可以自己评论自己哦..")
 ]
 
 PYApp.controller 'dialogLoginCtl',['$scope','detailService','$mdToast','md5','$mdDialog',($scope,detailService,$mdToast,md5,$mdDialog)->

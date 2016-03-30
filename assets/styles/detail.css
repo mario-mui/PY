@@ -82,6 +82,9 @@ ol.comment-list li {
   position: relative;
   padding-left: 90px;
 }
+.comment-content {
+  padding-left: 50px;
+}
 
 /*
 detail area

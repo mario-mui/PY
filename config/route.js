@@ -44,5 +44,7 @@ router.post('/py/action/complete.json',pyACtl.completePY);
 router.post('/py/action/delete.json',pyACtl.deletePY);
 router.post('/get/my/apply/list.json',pyACtl.getMyApplyList);
 router.post('/cancel/my/apply.json',pyACtl.cancelMyApply);
+router.post('/py/get/comment.json',detailCtl.getComment);
+router.post('/py/post/comment.json',detailCtl.postComment);
 
 module.exports = router;

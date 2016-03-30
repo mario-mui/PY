@@ -58,44 +58,33 @@ block body
               .detail-area-img
                 img(ng-repeat="img in detail.good_imgs" ng-src='/userImg/{{img}}')
 
-          uib-tab(index='1', heading='评论')
+          uib-tab(index='1', heading='评论' ng-click='initComment()')
             .comment-area
               ol.comment-list.clearfix
-                li
+                li(ng-repeat="comment in commentList")
                   .media
                     .media-left
-                      img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
+                      img(ng-src="/avatar/{{comment.user.avatar || 'defaultAvatar.png'}}", height='60', width='60')
                     .media-body
+                      .comment-head
+                        span(ng-bind="comment.user.username + ' : '")
                       .comment-content
                         p
-                          | That support is great, but I ran into trouble wanting to alter/change the default order. Is it possible to put the textarea first. Been searching around and didn’t find any answers. Thanks
+                          span(ng-bind="comment.content")
                       .comment-footer.row
                         .rate.col-sm-6
-                          uib-rating(ng-model='rate' read-only='true')
+                          uib-rating(ng-model='comment.rate' read-only='true')
                         .date.col-sm-6
-                          | 2016-03-10
-                li
-                  .media
-                    .media-left
-                      img(ng-src='/avatar/defaultAvatar.png', height='60', width='60')
-                    .media-body
-                      .comment-content
-                        p
-                          | This is the code I was looking all day. You save me. The new wordpress theme i’m doing with bootstrap 3 needs this code to make comments part compatible with bootstrap
-                      .comment-footer.row
-                        .rate.col-sm-6
-                          uib-rating(ng-model='rate' read-only='true')
-                        .date.col-sm-6
-                          | 2016-03-10
+                          span(ng-bind="comment.time | date:'yyyy-MM-dd'")
               .comment-respond
                 h3 评论一下
-                form.comment-form(name="commentForm")
+                form.comment-form(name="commentForm" ng-submit="submitComment()")
                   .form-group
-                    uib-rating(name='commentRate' ng-model='rate', on-hover='commentRateHover(value);overStar = true', on-leave="overStar = null")
+                    uib-rating(name='commentRate' ng-model='comment.rate', on-hover='commentRateHover(value);overStar = true', on-leave="overStar = null")
                     span.label.label-success(ng-show='overStar' ng-bind="rateInfo")
                     p
-                    textarea.form-control(name='commentText', ng-model='comment.commentText' cols='45', rows='8', required)
-                  button.btn.btn-primary(type='submit',ng-disabled="!(rate && commentForm.$valid)") 发布评论
+                    textarea.form-control(name='commentText', ng-model='comment.content' cols='45', rows='8', required)
+                  button.btn.btn-primary(type='submit',ng-disabled="!(comment.rate && commentForm.$valid)") 发布评论
 block js
   script(src="/angular-bootstrap/ui-bootstrap.min.js")
   script(src="/angular-bootstrap/ui-bootstrap-tpls.min.js")
